@@ -1,5 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
-def base(request):
-    return render(request, 'landing/base.html')
+def home(request):
+    return render(request, 'landing/home.html', {'title': 'Your library'})

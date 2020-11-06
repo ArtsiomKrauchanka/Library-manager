@@ -11,14 +11,13 @@
     <link rel="stylesheet" href="{% static 'landing/main.css' %}" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     {% if title %}
-        <title>Library - {{title}}</title>
+        <title>{{title}}</title>
     {% else %}
         <title>Library</title>
     {% endif %} 
 </head>
 <body>
   <header class="site-header">
-    {% block header-image %}{% endblock %} 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top mainmenu-area"> 
       <div class="container">
         <a class="navbar-brand" href="#">
@@ -41,8 +40,8 @@
           </div>
         </div>
       </div>
-    </nav>
-    {% block header-text%}{% endblock %}
+    </nav>        
+    {% block header %}{% endblock %} 
   </header>
   <main role="main" class="container">
     <div class="row">

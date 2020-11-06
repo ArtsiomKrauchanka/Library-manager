@@ -1,15 +1,18 @@
-body {
+body,
+html {
     font-family: 'Montserrat', sans-serif;
     margin-top: 5rem;
     line-height: 1.6;
     font-weight: 400;
+    margin: 0;
+    padding: 0;
 }
 
 .mainmenu-area {
     background: rgba(0,0,0, 0.8)
 }
 
-.nav-link {
+.navbar-nav .nav-link {
     color: #FFF !important;
 }
 
@@ -17,25 +20,44 @@ body {
     background: #242424;
 }
 
-.text-white {
-    color: #FFF;
+#landing-wrapper {
+    height: 100vh;
+    min-height: 500px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('/static/landing/img/background-image.jpg');
+    background-size: cover;
+    background-position:center;
+    background-repeat: no-repeat;
+}
+
+.fade-in-up {
+    animation-name: fadeInUp;
+}
+
+.jumbotron {
+    margin-top: 100px;
+    background: none;
 }
 
 .border-none * {
     border: none !important;
 }
 
+.input-group .btn {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.card-header a {
+    color: #5b5b5b;
+}
+
 a {
     text-decoration: none;
-    color: #FFF;
 }
 
 a:hover {
     text-decoration: none;
-    color: #FFF;
 }
-
-
 
 .list-unstyled {
     list-style-type:none;
@@ -56,6 +78,15 @@ footer li i {
 
 footer ul.links li i {
     margin-left: 10px;
+}
+
+footer a {
+    color: #FFF;
+}
+
+
+footer a:hover {
+    color: #FFF;
 }
 
 .table > tbody > tr > td {
