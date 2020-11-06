@@ -1,0 +1,67 @@
+{% extends "landing/base.html" %}
+{% block header %}
+<div id="landing-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-sm-offset-1 text-center">
+                <div class="jumbotron mb-2 pb-5">
+                    <h1 class="display-4 text-white">Welcome To Your Library</h1>
+                    <p class="lead text-white">Lorem ipsum dolor sit amet, consectetur 
+                        adipiscing elit. Ut gravida, quam vitae
+                        <br>
+                        est Sed non eros elementum nulla sodales
+                        ullamcorper.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center fade-in-up">
+            <div class="col-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#book" data-toggle="tab" >Book</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#author" data-toggle="tab">Author</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="book">
+                                <form action="#">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Enter book title">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="author">
+                                <form action="#">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Enter author name">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="fas fa-search"></i>                                        
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+{% endblock %}
