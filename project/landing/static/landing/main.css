@@ -4,9 +4,26 @@ html {
     margin-top: 5rem;
     line-height: 1.6;
     font-weight: 400;
+    font-size: 14px;
     margin: 0;
     padding: 0;
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
+h2 { 
+    font-weight: 300;
+} 
+
+
+hr { 
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+hr.solid {border-top: 1.9px solid;}
+hr.solid.blue { color: #2352c5}
 
 .mainmenu-area {
     background: rgba(0,0,0, 0.8)
@@ -18,6 +35,10 @@ html {
 
 .bg-black {
     background: #242424;
+}
+
+.bg-gray {
+    background: #f5f5f5;
 }
 
 #landing-wrapper {
@@ -38,10 +59,6 @@ html {
     background: none;
 }
 
-.border-none * {
-    border: none !important;
-}
-
 .input-group .btn {
     padding-left: 30px;
     padding-right: 30px;
@@ -49,6 +66,32 @@ html {
 
 .card-header a {
     color: #5b5b5b;
+}
+
+.section {
+    padding: 80px 0;
+}
+
+.icon-bar li {
+    color: #2352c5;
+    font-size: 26px;
+}
+
+.icon-bar li::after {
+    background-color: #2352c5;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    margin: 6px 0 6px 6px;
+    width: 100px;
+}
+
+.about-img-wrapper {
+    padding: 40px 0 0 50px;
+}
+
+.about-img-wrapper img {
+    border-radius: 5%;
 }
 
 a {
@@ -89,38 +132,21 @@ footer a:hover {
     color: #FFF;
 }
 
+.social-icons i {
+    font-size: 16px;
+}
+
 .table > tbody > tr > td {
     padding: 8px;
     line-height: 1.4;
     vertical-align: top;
 }
 
-/* Rules for sizing the icon. */
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.border-none * {
+    border: none !important;
+}
 
-/* Rules for using icons as black on a light background. */
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+.addres-tb tr td i {
+    font-size: 20px;
+}
 
-/* Rules for using icons as white on a dark background. */
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
-
-
-/* Rules for sizing the icon. */
-.fas.md-14 { font-size: 14px; }
-.fas.md-18 { font-size: 18px; }
-.fas.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.fas.md-48 { font-size: 48px; }
-
-/* Rules for using icons as black on a light background. */
-.fas.md-dark { color: rgba(0, 0, 0, 0.54); }
-.fas.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
-
-/* Rules for using icons as white on a dark background. */
-.fas.md-light { color: rgba(255, 255, 255, 1); }
-.fas.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
