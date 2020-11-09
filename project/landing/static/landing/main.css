@@ -33,6 +33,10 @@ hr.solid.blue { color: #2352c5}
     color: #FFF !important;
 }
 
+div.dropdown-menu {
+    left: -100;
+}
+
 .bg-black {
     background: #242424;
 }

@@ -21,17 +21,32 @@
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top mainmenu-area"> 
       <div class="container">
-        <a class="navbar-brand" href="#">
-         <div class="logo-image">
-           <!-- <img src="{% static 'landing/img/logo.png' %}" alt="logo" class="img-fluid"> -->
-         </div>
-         Library
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="navbar navbar-left ">
+          <a class="navbar-brand ml-auto" href="#">
+            <div class="logo-image">
+              <!-- <img src="{% static 'landing/img/logo.png' %}" alt="logo" class="img-fluid"> -->
+            </div>
+            Library
+          </a>
+        </div>
+        
+        <div class="nav navbar-right ml-auto order-md-2">
+          <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+          </button>
+          <div class="dropdown active-user">
+            <a class="nav-link" href="#" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="/static/landing/img/profile_pic.jpg" class="rounded-circle" alt="Active user">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="">Profile</a>
+              <a class="dropdown-item" href="">My books</a>
+              <a class="dropdown-item" href="">Log Out</a>
+            </div>
+          </div>
+        </div>
         <div class="collapse navbar-collapse" id="mainMenu">
-          <div class="navbar-nav ml-auto text-center">
+          <div class="navbar-nav text-center order-md-1 ml-auto">
             <a class="nav-item nav-link active" href="">Home</a>
             <a class="nav-item nav-link" href="#about-us">About</a>
             <a class="nav-item nav-link" href="">Ebooks</a>
