@@ -12,9 +12,9 @@ def register(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
-            return redirect(request, 'landing-home')
+            return redirect('landing-home')
     else:
         form = UserRegistrationForm()
 
-    return render(request, 'users/registers.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form})
     
