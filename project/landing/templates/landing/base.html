@@ -54,7 +54,7 @@
             <a class="nav-item nav-link" href="">Ebooks</a>
             <a class="nav-item nav-link" href="">Library</a>
             {% if not user.is_authenticated %}
-            <a class="nav-item nav-link" href="">Login</a>
+            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
             <a class="nav-item nav-link" href="{% url 'register' %}">Join Us</a>
             {% else %}
             <a class="nav-item nav-link" href="">Logout</a>
