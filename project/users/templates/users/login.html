@@ -5,7 +5,7 @@
     <div class="container inner bg-white">
         <div class="row">
             <div class="col-12 col-sm-6 image-holder">
-                <img class="rounded" src="{% static 'landing/img/signup-photo.jpg'%}" alt="">
+                <img class="rounded" src="{% static 'landing/img/hero-fell.jpg'%}" alt="">
             </div>
             <div class="col-12 col-sm-6 p-4 my-auto">
                 <form method="POST">
@@ -15,11 +15,14 @@
                         <input type="text" name="username" placeholder="Username" {% if form.is_bound %} value="{{ form.username.value }}" {% endif %} class="input" autocomplete="new-password">
                         <small>{{ form.username.errors}}</small>
                         <input type="password" name="password" placeholder="Password" class="input input-password" autocomplete="new-password">
-                        <small>{{ form.password.errors}}</small>
+                        <div>
+                            <small class="mr-auto">{{ form.password.errors}}</small>
+                            <small class="ml-3"><a href="">Forgot your password?</a></small>
+                        </div>
                     </fieldset>
-                    <span class="span-link ml-3 mt-3" style="display: inline-block;">Don't have an account? <a href="{% url 'users/register.html' %}">Create One</a></span>
                     <div class="text-center">
                         <button class="register-btn" type="submit">Log In</button>
+                        <span class="span-link mt-4" style="display: block;">Don't have an account? <a href="{% url 'register' %}">Create One</a></span>
                     </div>
                 </form>
             </div>

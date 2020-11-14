@@ -33,7 +33,7 @@
                         <input type="password" name="password2" placeholder="Confirm Password" class="input input-password" autocomplete="new-password">
                         <small>{{ form.password2.errors}}</small>
                     </fieldset>
-                    <span class="span-link ml-3 mt-3" style="display: inline-block;">Already have an account? <a href="">Log In</a></span>
+                    <span class="span-link ml-3 mt-3" style="display: inline-block;">Already have an account? <a href="{% url 'login' %}">Log In</a></span>
                     <div class="text-center">
                         <button class="register-btn" type="submit">Register</button>
                     </div>
