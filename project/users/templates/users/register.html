@@ -28,18 +28,18 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" name="first_name" placeholder="First Name" class="input" autocomplete="new-password">
+                                        <input type="text" name="first_name" placeholder="First Name" {% if form.is_bound %} value="{{ form.first_name.value }}" {% endif %} class="input" autocomplete="new-password">
                                         <small>{{ form.first_name.errors}}</small>
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" name="last_name" placeholder="Last Name" class="input" autocomplete="new-password">
+                                        <input type="text" name="last_name" placeholder="Last Name" {% if form.is_bound %} value="{{ form.last_name.value }}" {% endif %} class="input" autocomplete="new-password">
                                         <small>{{ form.last_name.errors}}</small>
                                     </div>
                                 </div>
                             </div>
-                            <input type="text" name="username" placeholder="Username" class="input" autocomplete="new-password">
+                            <input type="text" name="username" placeholder="Username" {% if form.is_bound %} value="{{ form.username.value }}" {% endif %} class="input" autocomplete="new-password">
                             <small>{{ form.username.errors}}</small>
-                            <input type="email" name="email" placeholder="Email" class="input">
+                            <input type="email" name="email" placeholder="Email" {% if form.is_bound %} value="{{ form.email.value }}" {% endif %} class="input">
                             <small>{{ form.email.errors}}</small>
                             <input type="password" name="password1" placeholder="Password" class="input input-password" autocomplete="new-password">
                             <small>{{ form.password1.errors}}</small>
