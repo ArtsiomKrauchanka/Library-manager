@@ -1,61 +1,45 @@
+{% extends "users/base_without_nav.html" %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'landing/main.css' %}" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link rel="stylesheet" href="{% static 'landing/icofont/icofont.min.css' %}">
-    <title>Join Us</title>
-</head>
-<body>
-    <div class="wrapper bg-gray">
-        <div class="container inner bg-white">
-            <div class="row">
-                <div class="col-12 col-sm-6 image-holder">
-                    <img class="rounded" src="{% static 'landing/img/signup-photo.jpg'%}" alt="">
-                </div>
-                <div class="col-12 col-sm-6 p-4">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <h3 class="text-center mb-5"><b>Sign Up</b></h3>
-                        <fieldset>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" name="first_name" placeholder="First Name" {% if form.is_bound %} value="{{ form.first_name.value }}" {% endif %} class="input" autocomplete="new-password">
-                                        <small>{{ form.first_name.errors}}</small>
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" name="last_name" placeholder="Last Name" {% if form.is_bound %} value="{{ form.last_name.value }}" {% endif %} class="input" autocomplete="new-password">
-                                        <small>{{ form.last_name.errors}}</small>
-                                    </div>
+{% block content %}
+<div class="wrapper bg-gray">
+    <div class="container inner bg-white">
+        <div class="row">
+            <div class="col-12 col-sm-6 image-holder">
+                <img class="rounded" src="{% static 'landing/img/signup-photo.jpg'%}" alt="">
+            </div>
+            <div class="col-12 col-sm-6 p-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h3 class="text-center mb-5"><b>Sign Up</b></h3>
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" name="first_name" placeholder="First Name" {% if form.is_bound %} value="{{ form.first_name.value }}" {% endif %} class="input" autocomplete="new-password">
+                                    <small>{{ form.first_name.errors}}</small>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" name="last_name" placeholder="Last Name" {% if form.is_bound %} value="{{ form.last_name.value }}" {% endif %} class="input" autocomplete="new-password">
+                                    <small>{{ form.last_name.errors}}</small>
                                 </div>
                             </div>
-                            <input type="text" name="username" placeholder="Username" {% if form.is_bound %} value="{{ form.username.value }}" {% endif %} class="input" autocomplete="new-password">
-                            <small>{{ form.username.errors}}</small>
-                            <input type="email" name="email" placeholder="Email" {% if form.is_bound %} value="{{ form.email.value }}" {% endif %} class="input">
-                            <small>{{ form.email.errors}}</small>
-                            <input type="password" name="password1" placeholder="Password" class="input input-password" autocomplete="new-password">
-                            <small>{{ form.password1.errors}}</small>
-                            <input type="password" name="password2" placeholder="Confirm Password" class="input input-password" autocomplete="new-password">
-                            <small>{{ form.password2.errors}}</small>
-                        </fieldset>
-                        <div class="text-center">
-                            <button class="register-btn" type="submit">Register</button>
                         </div>
-                    </form>
-                </div>
+                        <input type="text" name="username" placeholder="Username" {% if form.is_bound %} value="{{ form.username.value }}" {% endif %} class="input" autocomplete="new-password">
+                        <small>{{ form.username.errors}}</small>
+                        <input type="email" name="email" placeholder="Email" {% if form.is_bound %} value="{{ form.email.value }}" {% endif %} class="input">
+                        <small>{{ form.email.errors}}</small>
+                        <input type="password" name="password1" placeholder="Password" class="input input-password" autocomplete="new-password">
+                        <small>{{ form.password1.errors}}</small>
+                        <input type="password" name="password2" placeholder="Confirm Password" class="input input-password" autocomplete="new-password">
+                        <small>{{ form.password2.errors}}</small>
+                    </fieldset>
+                    <span class="span-link ml-3 mt-3" style="display: inline-block;">Already have an account? <a href="">Log In</a></span>
+                    <div class="text-center">
+                        <button class="register-btn" type="submit">Register</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+</div>
+{% endblock %}
