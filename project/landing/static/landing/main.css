@@ -48,7 +48,7 @@ div.dropdown-menu {
 #landing-wrapper {
     height: 100vh;
     min-height: 500px;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('/static/landing/img/background-image.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/landing/img/background-image.jpg');
     background-size: cover;
     background-position:center;
     background-repeat: no-repeat;
@@ -154,3 +154,41 @@ footer a:hover {
     font-size: 20px;
 }
 
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.inner {
+    max-width: 850px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    -moz-box-shadow: 0 0 4px #ccc;
+    -webkit-box-shadow: 0 0 4px #ccc;
+    box-shadow: 0 0 4px #ccc;
+}
+
+.input {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: #999;
+    padding: 7px;
+    width: 100%;
+    margin: 7px;
+  }
+
+.input:focus {
+    border-color: #2352c5;
+  }
+
+.register-btn {
+    margin-top: 35px;
+    background-color: #999;
+    height: 50px;
+    width: 150px;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+}
