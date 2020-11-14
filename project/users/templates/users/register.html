@@ -29,16 +29,22 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <input type="text" name="first_name" placeholder="First Name" class="input" autocomplete="new-password">
+                                        <small>{{ form.first_name.errors}}</small>
                                     </div>
                                     <div class="col-6">
                                         <input type="text" name="last_name" placeholder="Last Name" class="input" autocomplete="new-password">
+                                        <small>{{ form.last_name.errors}}</small>
                                     </div>
                                 </div>
                             </div>
                             <input type="text" name="username" placeholder="Username" class="input" autocomplete="new-password">
+                            <small>{{ form.username.errors}}</small>
                             <input type="email" name="email" placeholder="Email" class="input">
+                            <small>{{ form.email.errors}}</small>
                             <input type="password" name="password1" placeholder="Password" class="input input-password" autocomplete="new-password">
+                            <small>{{ form.password1.errors}}</small>
                             <input type="password" name="password2" placeholder="Confirm Password" class="input input-password" autocomplete="new-password">
+                            <small>{{ form.password2.errors}}</small>
                         </fieldset>
                         <div class="text-center">
                             <button class="register-btn" type="submit">Register</button>
