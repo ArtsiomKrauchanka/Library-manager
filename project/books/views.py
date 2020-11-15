@@ -1,3 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+def library(request):
+    return render(request, 'books/library.html', {'title': 'Your library'})

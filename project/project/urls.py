@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_views.home, name='landing-home'),
     path('user/', include('users.urls')),
+    path('book/', include('books.urls')),
 ]
