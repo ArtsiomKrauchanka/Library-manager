@@ -192,3 +192,13 @@ footer a:hover {
     color: #FFF;
     cursor: pointer;
 }
+
+.input-password {
+    font: small-caption;
+    font-size: 16px;
+}
+
+.span-link {
+    font-size: 12px;
+    font-weight: 600;
+}
