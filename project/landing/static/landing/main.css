@@ -98,6 +98,8 @@ div.dropdown-menu {
     border-radius: 5%;
 }
 
+
+
 a {
     text-decoration: none;
 }
@@ -202,6 +204,7 @@ footer a:hover {
     font-size: 12px;
     font-weight: 600;
 }
+
 
 .underline-it {
     text-decoration: underline;
