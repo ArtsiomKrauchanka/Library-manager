@@ -9,11 +9,7 @@
      <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'landing/main.css' %}" type="text/css">
-    <style type="text/css">
-      .underline-it {
-      border-color: #2322c5;
-      text-decoration: underline;
-    }
+
     </style>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'landing/icofont/icofont.min.css' %}">
@@ -56,12 +52,16 @@
         </div>
         <div class="collapse navbar-collapse" id="mainMenu">
           <div class="navbar-nav text-center order-md-1 ml-auto">
-            <a class="nav-item nav-link active" href="">Home</a>
+            <a class="nav-item nav-link" href="">Home</a>
             {% if show_extras != "no" %}
             <a class="nav-item nav-link" href="#about-us">About</a>
             {% endif %}
             <a class="nav-item nav-link" href="">Ebooks</a>
-            <a class="{{ library_selcted_class }} nav-item nav-link" href="{% url 'library' %}">Library</a>
+            {% if library_selcted_class %}
+            <a class="{{ library_selcted_class }} nav-item nav-link">Library</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'library' %}">Library</a>
+            {% endif %}
             {% if not user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
             <a class="nav-item nav-link" href="{% url 'register' %}">Join Us</a>

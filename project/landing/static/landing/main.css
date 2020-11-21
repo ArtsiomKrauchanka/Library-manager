@@ -206,6 +206,6 @@ footer a:hover {
 }
 
 
-.underline-it {
-    text-decoration: underline;
+.nav-selected {
+    background-color: #999;
 }
