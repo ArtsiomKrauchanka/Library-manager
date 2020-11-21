@@ -17,11 +17,11 @@
                         <input type="password" name="password" placeholder="Password" class="input input-password" autocomplete="new-password">
                         <div>
                             <small class="mr-auto">{{ form.password.errors}}</small>
-                            <small class="ml-3"><a href="">Forgot your password?</a></small>
+                            <small class="ml-3"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
                         </div>
                     </fieldset>
                     <div class="text-center">
-                        <button class="register-btn" type="submit">Log In</button>
+                        <button class="confirm-btn" type="submit">Log In</button>
                         <span class="span-link mt-4" style="display: block;">Don't have an account? <a href="{% url 'register' %}">Create One</a></span>
                     </div>
                 </form>

@@ -166,7 +166,6 @@ footer a:hover {
     max-width: 850px;
     margin: auto;
     padding: 20px;
-    display: flex;
     -moz-box-shadow: 0 0 4px #ccc;
     -webkit-box-shadow: 0 0 4px #ccc;
     box-shadow: 0 0 4px #ccc;
@@ -185,7 +184,7 @@ footer a:hover {
     border-color: #2352c5;
   }
 
-.register-btn {
+.confirm-btn {
     margin-top: 35px;
     background-color: #999;
     height: 50px;
