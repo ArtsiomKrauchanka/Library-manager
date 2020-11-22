@@ -42,15 +42,15 @@
             <div class="dropdown-menu" aria-labelledby="profileDropdown">
               <a class="dropdown-item" href="">Profile</a>
               <a class="dropdown-item" href="">My books</a>
-              <a class="dropdown-item" href="">Log Out</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
             </div>
           </div>
           {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="mainMenu">
           <div class="navbar-nav text-center order-md-1 ml-auto">
-            <a class="nav-item nav-link active" href="">Home</a>
-            <a class="nav-item nav-link" href="#about-us">About</a>
+            <a class="nav-item nav-link active" href="{% url 'landing-home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'landing-home' %}#about-us">About</a>
             <a class="nav-item nav-link" href="">Ebooks</a>
             <a class="nav-item nav-link" href="">Library</a>
             {% if not user.is_authenticated %}
