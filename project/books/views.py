@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from books.models import BookInstance
+from .models import BookInstance
 from django.shortcuts import render, get_object_or_404
 
 
@@ -9,6 +9,6 @@ def library(request):
                                                   'show_extras': "no", 'bookInstanceList': bookList})
 
 
-def bookDetails(request):
+def book_details(request):
     bookInstance = get_object_or_404(BookInstance, pk=pk)
     return render(request, 'books/book_details.html', {'title': 'Book details', 'bookInstance': bookInstance})
