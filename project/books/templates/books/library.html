@@ -1,0 +1,218 @@
+{% extends "landing/base_complete.html" %}
+{% load static %}
+
+
+
+{% block header %}
+  <style type="text/css">
+  
+  .pull-left{
+    float:left;
+  }
+  .pull-right{
+    float:right;
+  }
+  
+  .input-search{
+    width: 90%;
+    float:left;
+    border: 1px solid #d6d6d6;
+    border-radius: 6px 0 0 6px;
+    padding-left: 15px;
+  }
+
+  .input-group{
+    float:left;
+    
+  }
+  .btn-primary{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .space-10{
+    height:10px;
+  }
+   .space-30{
+    height:30px;
+  }
+  .space-80{
+    height:80px;
+  }
+
+  .book-item-left .book-item-body{
+    display: table-cell;
+    vertical-align: 10px;
+  }
+
+  .book-item-object{
+    display: block;
+  }
+
+  .active-star{
+    color: #FAC71B;
+  }
+
+  .rating-star{
+     color: #A8A498;
+  }
+
+  .book-item{
+    padding: 30px 20px;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease 0s;
+    border: 2px solid #d6d6d6;
+    border-radius: 4px;
+    margin-bottom: 20px; 
+  }
+  .book-item:hover{
+    border-color: #FAC71B;
+    box-shadow: 0 5px 15px 5px rgba(0,0,0,0.3);
+    transform: translateY(-5px);
+  }
+
+
+  .category-menu li {
+    margin-bottom: 10px;
+  }
+  .category-menu li a{
+   
+    color: #5d5d5d;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0s
+  }
+
+  .category-menu li a:hover{
+    color: #FAC71B;
+    margin-left: 5px;
+  }
+
+  .category-menu li a::before{
+    content: "#";
+    font-weight: bold;
+  }
+
+
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+
+
+  <div class="space-80"></div>
+       
+          <div class="container">
+            <div class="row">
+              
+
+              <div class="col-xs-12 col-md-10 pull-left">
+
+                <h5>Search box</h5>
+                <div class="space-10"></div>
+
+                <div class="input-group">
+                  <input type="text" name="search_input" class="input-search" placeholder="Enter book name">
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="icofont-search-2"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="space-80"></div>
+
+                <hr>
+
+                <div class="row">
+                    {% for bookInstance in bookInstanceList %}                  
+                    <div class="col-xs-12 col-md-6">
+                        <div class="book-item">
+                            <div class="row">
+                                <div class="col-xs-5 col-md-4 book-item-image">
+                                    <img src="{{ bookInstance.book.image }}" class="book-item-object">
+                                </div>
+                                <div class="col-xs-7 col-md-8 book-item-body">
+                                    <h5>{{ bookInstance.book.title }}</h5>
+                                    <h6>{{ bookInstance.book.author.str }}</h6>
+                                    <div class="space-10"></div>
+                                    <ul class="list-inline list-unstyled rating-star">
+                                        <li class="active-star">
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li class="active-star">
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li class="active-star">
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        {{ bookInstance.book.summary|linebreaksbr }}
+                                    </p>
+                                    <a href="{% url 'bookDetails'  pk=bookInstance.pk %}">See the Book</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2">
+                <div>
+                  <h3>
+                    <i class="icofont-filter"></i>
+                    Filter By
+                  </h3>
+                </div>
+                <div>
+                  <div class="space-30"></div>
+                  <h4>Category</h4>
+                  <hr>
+                  <ul class="list-unstyled category-menu">
+                    <li>
+                      <a href="#">CategoryName</a>
+                    </li>
+                    <li>
+                      <a href="#">CategoryName</a>
+                    </li>
+                    <li>
+                      <a href="#">CategoryName</a>
+                    </li>
+                    <li>
+                      <a href="#">CategoryName</a>
+                    </li>
+                    <li>
+                      <a href="#">CategoryName</a>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+
+          </div>
+
+          <div class="space-80"></div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="pagination">
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="space-80"></div>
+
+{% endblock %} 

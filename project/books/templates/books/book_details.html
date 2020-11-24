@@ -1,0 +1,69 @@
+﻿{% extends 'landing/base_complete.html' %}
+{% load static %}
+
+
+
+
+{% block header %}
+<style type="text/css">
+    .active-star {
+        color: #FAC71B;
+    }
+
+    .rating-star {
+        color: #A8A498;
+    }
+</style>
+{% endblock %}
+
+{% block content %} 
+<div id="landing-wrapper" style="padding-top: 60pt;">
+    <div class="container  inner bg-white">
+        <div class="row ">
+            <div class="col-lg-5 align-items-start image-holder">
+                <img class="rounded" src="{{ bookInstance.book.image }}" alt="book image" width="300">
+                <div class="space-10"></div>
+            </div>
+            <div class="col-lg-7 align-items-start">
+                <h1>{{ bookInstance.book.title }}</h1>
+                <p>{{ bookInstance.book.author.str }}</p>
+                <ul class="list-inline list-unstyled rating-star">
+                    <li class="active-star">
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li class="active-star">
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li class="active-star">
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li>
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li>
+                        <i class="icofont-star"></i>
+                    </li>
+                </ul>
+                <p>Genre: {{ bookInstance.book.genre }}</p>
+                <h4>Summary:</h4>
+                <p>
+                    {{ bookInstance.book.summary|linebreaksbr }}
+                </p>
+                <p>ISBN: {{ bookInstance.book.isbn|linebreaksbr }} </p>
+                {% if bookInstance.isAvailable %}
+                <p>Available: Yes </p>
+                <button type="button" class="btn btn-success">Reserve</button>
+                {% else %}
+                <p>Available: No </p>
+                {% endif %}
+                {% if not bookInstance.isEbook %}
+                <button type="button" class="btn btn-primary">Read online</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}
