@@ -49,7 +49,7 @@
                 <p>
                     {{ bookInstance.book.summary|linebreaksbr }}
                 </p>
-                <p>ISBN: Lorem ipsum </p>
+                <p>ISBN: {{ bookInstance.book.isbn|linebreaksbr }} </p>
                 {% if bookInstance.isAvailable %}
                 <p>Available: Yes </p>
                 <button type="button" class="btn btn-success">Reserve</button>

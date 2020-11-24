@@ -33,6 +33,7 @@ class Book(models.Model):
     image = models.ImageField(default='book_default.jpg', upload_to='books_pics')
     def __str__(self):
         return self.title
+
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 
