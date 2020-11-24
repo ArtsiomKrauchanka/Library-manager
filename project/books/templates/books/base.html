@@ -1,4 +1,5 @@
-{% load static %}
+﻿{% load static %}
+<!doctype html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -7,9 +8,9 @@
 
      <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'landing/main.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'books/main.css' %}" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link rel="stylesheet" href="{% static 'landing/icofont/icofont.min.css' %}">
+    <link rel="stylesheet" href="{% static 'books/icofont/icofont.min.css' %}">
     {% if title %}
         <title>{{title}}</title>
     {% else %}
@@ -36,7 +37,7 @@
           {% if user.is_authenticated %}
           <div class="dropdown active-user">
             <a class="nav-link" href="#" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="/static/landing/img/profile_pic.jpg" class="rounded-circle" alt="Active user">
+              <img src="{% static 'books/img/profile_pic.jpg' %}" class="rounded-circle" alt="Active user">
             </a>
             <div class="dropdown-menu" aria-labelledby="profileDropdown">
               <a class="dropdown-item" href="">Profile</a>
@@ -47,18 +48,25 @@
           {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="mainMenu">
-          <div class="navbar-nav text-center order-md-1 ml-auto">
-            <a class="nav-item nav-link active" href="">Home</a>
-            <a class="nav-item nav-link" href="#about-us">About</a>
-            <a class="nav-item nav-link" href="">Ebooks</a>
-            <a class="nav-item nav-link" href="">Library</a>
-            {% if not user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-            <a class="nav-item nav-link" href="{% url 'register' %}">Join Us</a>
-            {% else %}
-            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-            {% endif %}
-          </div>
+            <div class="navbar-nav text-center order-md-1 ml-auto">
+                <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+                {% if show_extras != "no" %}
+                <a class="nav-item nav-link" href="#about-us">About</a>
+                {% endif %}
+                <a class="nav-item nav-link" href="">Ebooks</a>
+                {% if library_class %}
+                <a class="{{ library_class }} nav-item nav-link">Library</a>
+                {% else %}
+                <a class="nav-item nav-link" href="{% url 'library' %}">Library</a>
+                {% endif %}
+                {% if not user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Join Us</a>
+                {% else %}
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                {% endif %}
+             
+            </div>
         </div>
       </div>
     </nav>        
@@ -83,7 +91,7 @@
             <tbody>
               <tr>
                 <td><i class="icofont-location-pin"></i></td>
-                <td><address>Wrocław, ul. Dubois 3, 51-260</address></td>=>
+                <td><address>Wrocław, ul. Dubois 3, 51-260</address></tdclass=>
               </tr>
               <tr>
                 <td><i class="icofont-mail"></i></td>

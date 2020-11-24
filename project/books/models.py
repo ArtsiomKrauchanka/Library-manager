@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 import uuid # Required for unique book instances
 
 # Create your models here.
@@ -43,6 +44,7 @@ class BookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    created_date = models.DateTimeField(default=timezone.now)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),

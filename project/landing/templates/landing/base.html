@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -52,7 +52,7 @@
         </div>
         <div class="collapse navbar-collapse" id="mainMenu">
           <div class="navbar-nav text-center order-md-1 ml-auto">
-            <a class="nav-item nav-link" href="">Home</a>
+            <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
             {% if show_extras != "no" %}
             <a class="nav-item nav-link" href="#about-us">About</a>
             {% endif %}

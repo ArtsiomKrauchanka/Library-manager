@@ -1,30 +1,69 @@
-{% extends "base.html" %}
+﻿{% extends 'landing/base.html' %}
 {% load static %}
-{% block content %}
-<div class="container inner bg-white">
-        <div class="row">
-            <div class="col-12 col-sm-6 image-holder">
-                <img class="rounded" src="{% static 'landing/img/hero-fell.jpg'%}" alt="">
+
+
+
+
+{% block header %}
+<style type="text/css">
+    .active-star {
+        color: #FAC71B;
+    }
+
+    .rating-star {
+        color: #A8A498;
+    }
+</style>
+{% endblock %}
+
+{% block content %} 
+<div id="landing-wrapper" style="padding-top: 60pt;">
+    <div class="container  inner bg-white">
+        <div class="row ">
+            <div class="col-lg-5 align-items-start image-holder">
+                <img class="rounded" src="{{ bookInstance.book.image }}" alt="book image" width="300">
+                <div class="space-10"></div>
             </div>
-            <div class="col-12 col-sm-6 p-4 my-auto">
-                <form method="POST">
-                    {% csrf_token %}
-                    <h3 class="text-center mb-5"><b>Sign In</b></h3>
-                    <fieldset>
-                        <input type="text" name="username" placeholder="Username" {% if form.is_bound %} value="{{ form.username.value }}" {% endif %} class="input" autocomplete="new-password">
-                        <small>{{ form.username.errors}}</small>
-                        <input type="password" name="password" placeholder="Password" class="input input-password" autocomplete="new-password">
-                        <div>
-                            <small class="mr-auto">{{ form.password.errors}}</small>
-                            <small class="ml-3"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
-                        </div>
-                    </fieldset>
-                    <div class="text-center">
-                        <button class="confirm-btn" type="submit">Log In</button>
-                        <span class="span-link mt-4" style="display: block;">Don't have an account? <a href="{% url 'register' %}">Create One</a></span>
-                    </div>
-                </form>
+            <div class="col-lg-7 align-items-start">
+                <h1>{{ bookInstance.book.title }}</h1>
+                <p>{{ bookInstance.book.author.str }}</p>
+                <ul class="list-inline list-unstyled rating-star">
+                    <li class="active-star">
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li class="active-star">
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li class="active-star">
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li>
+                        <i class="icofont-star"></i>
+                    </li>
+                    <li>
+                        <i class="icofont-star"></i>
+                    </li>
+                </ul>
+                <p>Genre: {{ bookInstance.book.genre }}</p>
+                <h4>Summary:</h4>
+                <p>
+                    {{ bookInstance.book.summary|linebreaksbr }}
+                </p>
+                <p>ISBN: Lorem ipsum </p>
+                {% if bookInstance.isAvailable %}
+                <p>Available: Yes </p>
+                <button type="button" class="btn btn-success">Reserve</button>
+                {% else %}
+                <p>Available: No </p>
+                {% endif %}
+                {% if not bookInstance.isEbook %}
+                <button type="button" class="btn btn-primary">Read online</button>
+                {% endif %}
             </div>
         </div>
     </div>
+
+
+</div>
+
 {% endblock %}

@@ -125,185 +125,44 @@
                 <hr>
 
                 <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div class="book-item">
-                      <div class="row">
-                        <div class="col-xs-5 col-md-4 book-item-image">
-                          <img src="/static/landing/img/book_no_image.png" class="book-item-object">
+                    {% for bookInstance in bookInstanceList %}                  
+                    <div class="col-xs-12 col-md-6">
+                        <div class="book-item">
+                            <div class="row">
+                                <div class="col-xs-5 col-md-4 book-item-image">
+                                    <img src="{{ bookInstance.book.image }}" class="book-item-object">
+                                </div>
+                                <div class="col-xs-7 col-md-8 book-item-body">
+                                    <h5>{{ bookInstance.book.title }}</h5>
+                                    <h6>{{ bookInstance.book.author.str }}</h6>
+                                    <div class="space-10"></div>
+                                    <ul class="list-inline list-unstyled rating-star">
+                                        <li class="active-star">
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li class="active-star">
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li class="active-star">
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="icofont-star"></i>
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        {{ bookInstance.book.summary|linebreaksbr }}
+                                    </p>
+                                    <a href="{% url 'bookDetails'  pk=bookInstance.pk %}">See the Book</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xs-7 col-md-8 book-item-body">
-                          <h5>Book title</h5>
-                          <h6>Author</h6>
-                          <div class="space-10"></div>
-                          <ul class="list-inline list-unstyled rating-star">
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                          </ul>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-                          </p>
-                          <a href="#">See the Book</a>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                    {% endfor %}
 
-                  <div class="col-xs-12 col-md-6">
-                    <div class="book-item">
-                      <div class="row">
-                        <div class="col-xs-5 col-md-4 book-item-image">
-                          <img src="/static/landing/img/book_no_image.png" class="book-item-object">
-                        </div>
-                        <div class="col-xs-7 col-md-8 book-item-body">
-                          <h5>Book title</h5>
-                          <h6>Author</h6>
-                          <div class="space-10"></div>
-                          <ul class="list-inline list-unstyled rating-star">
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                          </ul>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-                          </p>
-                          <a href="#">See the Book</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-12 col-md-6">
-                    <div class="book-item">
-                      <div class="row">
-                        <div class="col-xs-5 col-md-4 book-item-image">
-                          <img src="/static/landing/img/book_no_image.png" class="book-item-object">
-                        </div>
-                        <div class="col-xs-7 col-md-8 book-item-body">
-                          <h5>Book title</h5>
-                          <h6>Author</h6>
-                          <div class="space-10"></div>
-                          <ul class="list-inline list-unstyled rating-star">
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                          </ul>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-                          </p>
-                          <a href="#">See the Book</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-12 col-md-6">
-                    <div class="book-item">
-                      <div class="row">
-                        <div class="col-xs-5 col-md-4 book-item-image">
-                          <img src="/static/landing/img/book_no_image.png" class="book-item-object">
-                        </div>
-                        <div class="col-xs-7 col-md-8 book-item-body">
-                          <h5>Book title</h5>
-                          <h6>Author</h6>
-                          <div class="space-10"></div>
-                          <ul class="list-inline list-unstyled rating-star">
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                          </ul>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-                          </p>
-                          <a href="#">See the Book</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-12 col-md-6">
-                    <div class="book-item">
-                      <div class="row">
-                        <div class="col-xs-5 col-md-4 book-item-image">
-                          <img src="/static/landing/img/book_no_image.png" class="book-item-object">
-                        </div>
-                        <div class="col-xs-7 col-md-8 book-item-body">
-                          <h5>Book title</h5>
-                          <h6>Author</h6>
-                          <div class="space-10"></div>
-                          <ul class="list-inline list-unstyled rating-star">
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li class="active-star">
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                            <li>
-                              <i class="icofont-star"></i>
-                            </li>
-                          </ul>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-                          </p>
-                          <a href="#">See the Book</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
 
