@@ -9,6 +9,6 @@ def library(request):
                                                   'show_extras': "no", 'bookInstanceList': bookList})
 
 
-def bookDetails(request):
-    bookInstance = get_object_or_404(BookInstance, pk=pk)
+def bookDetails(request, pk):
+    bookInstance = get_object_or_404(BookInstance, id=pk)
     return render(request, 'books/book_details.html', {'title': 'Book details', 'bookInstance': bookInstance})

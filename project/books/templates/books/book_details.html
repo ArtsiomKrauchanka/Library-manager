@@ -21,12 +21,12 @@
     <div class="container  inner bg-white">
         <div class="row ">
             <div class="col-lg-5 align-items-start image-holder">
-                <img class="rounded" src="{{ bookInstance.book.image }}" alt="book image" width="300">
+                <img class="rounded" src="{{ bookInstance.book.image.url }}" alt="book image" width="300">
                 <div class="space-10"></div>
             </div>
             <div class="col-lg-7 align-items-start">
                 <h1>{{ bookInstance.book.title }}</h1>
-                <p>{{ bookInstance.book.author.str }}</p>
+                <p>{{ bookInstance.book.author }}</p>
                 <ul class="list-inline list-unstyled rating-star">
                     <li class="active-star">
                         <i class="icofont-star"></i>

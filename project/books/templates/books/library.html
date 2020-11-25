@@ -130,11 +130,11 @@
                         <div class="book-item">
                             <div class="row">
                                 <div class="col-xs-5 col-md-4 book-item-image">
-                                    <img src="{{ bookInstance.book.image }}" class="book-item-object">
+                                    <img src="{{ bookInstance.book.image.url }}" class="book-item-object">
                                 </div>
                                 <div class="col-xs-7 col-md-8 book-item-body">
                                     <h5>{{ bookInstance.book.title }}</h5>
-                                    <h6>{{ bookInstance.book.author.str }}</h6>
+                                    <h6>{{ bookInstance.book.author }}</h6>
                                     <div class="space-10"></div>
                                     <ul class="list-inline list-unstyled rating-star">
                                         <li class="active-star">
@@ -156,7 +156,7 @@
                                     <p>
                                         {{ bookInstance.book.summary|linebreaksbr }}
                                     </p>
-                                    <a href="{% url 'bookDetails'  pk=bookInstance.pk %}">See the Book</a>
+                                    <a href="{% url 'bookDetails'  pk=bookInstance.id %}">See the Book</a>
                                 </div>
                             </div>
                         </div>
