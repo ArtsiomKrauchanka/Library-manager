@@ -1,11 +1,26 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
 
 # User registration view
+@unauthenticated_user
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.groups.filter(name="admin").exists() or user.groups.filter(name="librarian").exists():
+                return redirect('admin')
+            return redirect('landing-home')
+    return render(request, 'users/login.html')
+
 @unauthenticated_user
 def register(request):
     if request.method == 'POST':

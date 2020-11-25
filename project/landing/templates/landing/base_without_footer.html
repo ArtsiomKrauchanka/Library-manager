@@ -1,5 +1,5 @@
 {% load static %}
-{% load landing_extras q%}
+{% load landing_extras %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -53,11 +53,14 @@
             <a class="nav-item nav-link active" href="{% url 'landing-home' %}">Home</a>
             <a class="nav-item nav-link" href="{% url 'landing-home' %}#about-us">About</a>
             <a class="nav-item nav-link" href="">Ebooks</a>
-            <a class="nav-item nav-link" href="">Library</a>
+            <a class="nav-item nav-link" href="{% url 'library' %}">Library</a>
             {% if not user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
             <a class="nav-item nav-link" href="{% url 'register' %}">Join Us</a>
             {% else %}
+            {% if not request.user|has_group:"reader" %}
+              <a class="nav-item nav-link" href="{% url 'admin' %}">Admin Page</a>
+            {% endif %}
             <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             {% endif %}
           </div>
