@@ -58,6 +58,9 @@
             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
             <a class="nav-item nav-link" href="{% url 'register' %}">Join Us</a>
             {% else %}
+            {% if not request.user|has_group:"reader" %}
+              <a class="nav-item nav-link" href="{% url 'admin' %}">Admin Page</a>
+            {% endif %}
             <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             {% endif %}
           </div>
