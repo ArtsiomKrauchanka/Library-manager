@@ -40,7 +40,10 @@
                         <i class="icofont-star"></i>
                     </li>
                 </ul>
-                <p>Genre: {{ book.genre.name }}</p>
+                <p>Genre: 
+                    {% for genre in book.genre.all %} 
+                        {{genre.name}}{% if not forloop.last %},{% endif %}
+                    {% endfor %}</p>
                 <h4>Summary:</h4>
                 <p>
                     {{ book.summary|linebreaksbr }}
