@@ -104,9 +104,10 @@
           <div class="container">
             <div class="row">
               <div class="col-12 col-lg-10 pull-left">
+                <div class="space-30"></div>
                 <h5>Search box</h5>
                 <div class="space-10"></div>
-                <form method="GET" action="{% url 'search_book' %}">
+                <form method="GET" action="{% url 'filter_book' %}">
                   <div class="input-group">
                     <input type="text" name="book_title" class="input-search" placeholder="Enter book title">
                     <div class="input-group-btn">
@@ -117,45 +118,60 @@
                   </div>
                 </form>
                 <div class="space-80"></div>
+                {% if searched %}
+                    <h1 style="font-weight:bold;">Search Results</h1>
+                {% endif %}
+                {% if genre %}
+                   <h1 style="font-weight:bold;">{{ genre }}</h1>
+                {% endif %}
+                <!-- <ul class="list-inline list-unstyled">
+                  <p class="mr-2" style="display:inline">Sort by:</p>
+                  <li class="mr-2"><a href="{% url 'filter_book' %}?sort=author">Author</a></li>
+                  <li class="mr-2"><a href="{% url 'filter_book' %}?sort=title">Title</a></li>
+                  <li class="mr-2">Rating</li>
+                </ul> -->
                 <hr>
+                {% if bookList|length == 0 %}
+                    <h2>No Results Found</h2> 
+                {% endif %}
                 <div class="row">
-                    {% for book in bookList %}                  
-                    <div class="col-12 col-lg-6">
-                        <div class="book-item">
-                            <div class="row">
-                                <div class="col-12 col-lg-5 book-item-image">
-                                    <img src="{{ book.image.url }}" class="book-item-object" width="150">
-                                </div>
-                                <div class="col-12 col-lg-7 book-item-body">
-                                    <h5>{{ book.title }}</h5>
-                                    <h6>{{ book.author }}</h6>
-                                    <div class="space-10"></div>
-                                    <ul class="list-inline list-unstyled rating-star">
-                                        <li class="active-star">
-                                            <i class="icofont-star"></i>
-                                        </li>
-                                        <li class="active-star">
-                                            <i class="icofont-star"></i>
-                                        </li>
-                                        <li class="active-star">
-                                            <i class="icofont-star"></i>
-                                        </li>
-                                        <li>
-                                            <i class="icofont-star"></i>
-                                        </li>
-                                        <li>
-                                            <i class="icofont-star"></i>
-                                        </li>
-                                    </ul>
-                                    <p>
-                                        {{ book.summary|linebreaksbr }}
-                                    </p>
-                                    <a href="{% url 'bookDetails'  pk=book.id %}">See the Book</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+                  {% for book in bookList %}                  
+                  <div class="col-12 col-lg-6">
+                      <div class="book-item">
+                          <div class="row">
+                              <div class="col-12 col-lg-5 book-item-image">
+                                  <img src="{{ book.image.url }}" class="book-item-object" width="150">
+                              </div>
+                              <div class="col-12 col-lg-7 book-item-body">
+                                  <h5>{{ book.title }}</h5>
+                                  <h6>{{ book.author }}</h6>
+                                  <div class="space-10"></div>
+                                  <ul class="list-inline list-unstyled rating-star">
+                                      <li class="active-star">
+                                          <i class="icofont-star"></i>
+                                      </li>
+                                      <li class="active-star">
+                                          <i class="icofont-star"></i>
+                                      </li>
+                                      <li class="active-star">
+                                          <i class="icofont-star"></i>
+                                      </li>
+                                      <li>
+                                          <i class="icofont-star"></i>
+                                      </li>
+                                      <li>
+                                          <i class="icofont-star"></i>
+                                      </li>
+                                  </ul>
+                                  <p>
+                                      {{ book.summary|linebreaksbr }}
+                                  </p>
+                                  <a href="{% url 'bookDetails'  pk=book.id %}">See the Book</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {% endfor %}
                 </div>
               </div>
               <div class="col-xs-12 col-md-2">
@@ -167,24 +183,14 @@
                 </div>
                 <div>
                   <div class="space-30"></div>
-                  <h4>Category</h4>
+                  <h4>Genre</h4>
                   <hr>
                   <ul class="list-unstyled category-menu">
-                    <li>
-                      <a href="#">CategoryName</a>
-                    </li>
-                    <li>
-                      <a href="#">CategoryName</a>
-                    </li>
-                    <li>
-                      <a href="#">CategoryName</a>
-                    </li>
-                    <li>
-                      <a href="#">CategoryName</a>
-                    </li>
-                    <li>
-                      <a href="#">CategoryName</a>
-                    </li>
+                    {% for genre in genres %}
+                      <li>
+                        <a href="{% url 'filter_book' %}?book_genre={{ genre.name }}">{{ genre.name }}</a>
+                      </li>
+                    {% endfor %}
                   </ul>
                 </div>
               </div>
