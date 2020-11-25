@@ -1,9 +1,5 @@
-﻿{% extends 'landing/base_complete.html' %}
+﻿{% extends 'landing/base_without_footer.html' %}
 {% load static %}
-
-
-
-
 {% block header %}
 <style type="text/css">
     .active-star {
@@ -18,15 +14,15 @@
 
 {% block content %} 
 <div id="landing-wrapper" style="padding-top: 60pt;">
-    <div class="container  inner bg-white">
+    <div class="container inner bg-white mt-5">
         <div class="row ">
             <div class="col-lg-5 align-items-start image-holder">
-                <img class="rounded" src="{{ bookInstance.book.image.url }}" alt="book image" width="300">
+                <img class="rounded" src="{{ book.image.url }}" alt="book image" width="300">
                 <div class="space-10"></div>
             </div>
-            <div class="col-lg-7 align-items-start">
-                <h1>{{ bookInstance.book.title }}</h1>
-                <p>{{ bookInstance.book.author }}</p>
+            <div class="col-lg-7 align-items-start mt-3">
+                <h1>{{ book.title }}</h1>
+                <p>{{ book.author }}</p>
                 <ul class="list-inline list-unstyled rating-star">
                     <li class="active-star">
                         <i class="icofont-star"></i>
@@ -44,21 +40,21 @@
                         <i class="icofont-star"></i>
                     </li>
                 </ul>
-                <p>Genre: {{ bookInstance.book.genre }}</p>
+                <p>Genre: {{ book.genre.name }}</p>
                 <h4>Summary:</h4>
                 <p>
-                    {{ bookInstance.book.summary|linebreaksbr }}
+                    {{ book.summary|linebreaksbr }}
                 </p>
-                <p>ISBN: {{ bookInstance.book.isbn|linebreaksbr }} </p>
-                {% if bookInstance.isAvailable %}
+                <p>ISBN: {{ book.isbn|linebreaksbr }} </p>
+                <!-- {% if book.isAvailable %}
                 <p>Available: Yes </p>
                 <button type="button" class="btn btn-success">Reserve</button>
                 {% else %}
                 <p>Available: No </p>
-                {% endif %}
-                {% if not bookInstance.isEbook %}
+                {% endif %} -->
+                <!-- {% if not book.isEbook %}
                 <button type="button" class="btn btn-primary">Read online</button>
-                {% endif %}
+                {% endif %} -->
             </div>
         </div>
     </div>

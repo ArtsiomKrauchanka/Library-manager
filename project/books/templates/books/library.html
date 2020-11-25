@@ -58,6 +58,8 @@
 
   .book-item{
     padding: 30px 20px;
+    min-width: 190px;
+    min-height: 290px;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease 0s;
     border: 2px solid #d6d6d6;
@@ -70,6 +72,13 @@
     transform: translateY(-5px);
   }
 
+  .book-item-image {
+    margin-bottom: 10px;
+  }
+
+  .book-item-body {
+    padding-left: 25px;
+  }
 
   .category-menu li {
     margin-bottom: 10px;
@@ -106,7 +115,7 @@
             <div class="row">
               
 
-              <div class="col-xs-12 col-md-10 pull-left">
+              <div class="col-12 col-lg-10 pull-left">
 
                 <h5>Search box</h5>
                 <div class="space-10"></div>
@@ -125,16 +134,16 @@
                 <hr>
 
                 <div class="row">
-                    {% for bookInstance in bookInstanceList %}                  
-                    <div class="col-xs-12 col-md-6">
+                    {% for book in bookList %}                  
+                    <div class="col-12 col-lg-6">
                         <div class="book-item">
                             <div class="row">
-                                <div class="col-xs-5 col-md-4 book-item-image">
-                                    <img src="{{ bookInstance.book.image.url }}" class="book-item-object">
+                                <div class="col-12 col-lg-5 book-item-image">
+                                    <img src="{{ book.image.url }}" class="book-item-object" width="150">
                                 </div>
-                                <div class="col-xs-7 col-md-8 book-item-body">
-                                    <h5>{{ bookInstance.book.title }}</h5>
-                                    <h6>{{ bookInstance.book.author }}</h6>
+                                <div class="col-12 col-lg-7 book-item-body">
+                                    <h5>{{ book.title }}</h5>
+                                    <h6>{{ book.author }}</h6>
                                     <div class="space-10"></div>
                                     <ul class="list-inline list-unstyled rating-star">
                                         <li class="active-star">
@@ -154,9 +163,9 @@
                                         </li>
                                     </ul>
                                     <p>
-                                        {{ bookInstance.book.summary|linebreaksbr }}
+                                        {{ book.summary|linebreaksbr }}
                                     </p>
-                                    <a href="{% url 'bookDetails'  pk=bookInstance.id %}">See the Book</a>
+                                    <a href="{% url 'bookDetails'  pk=book.id %}">See the Book</a>
                                 </div>
                             </div>
                         </div>

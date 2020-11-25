@@ -12,11 +12,9 @@
                     {% csrf_token %}
                     <h3 class="text-center mb-5"><b>Sign In</b></h3>
                     <fieldset>
-                        <input type="text" name="username" placeholder="Username" {% if form.is_bound %} value="{{ form.username.value }}" {% endif %} class="input" autocomplete="new-password">
-                        <small>{{ form.username.errors}}</small>
+                        <input type="text" name="username" placeholder="Username" class="input" autocomplete="new-password">
                         <input type="password" name="password" placeholder="Password" class="input input-password" autocomplete="new-password">
                         <div>
-                            <small class="mr-auto">{{ form.password.errors}}</small>
                             <small class="ml-3"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
                         </div>
                     </fieldset>
