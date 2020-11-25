@@ -1,4 +1,5 @@
 {% load static %}
+{% load landing_extras q%}
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,7 +35,7 @@
           <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          {% if user.is_authenticated %}
+          {% if user.is_authenticated and request.user|has_group:"reader" %}
           <div class="dropdown active-user">
             <a class="nav-link" href="#" id="profileDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="/static/landing/img/profile_pic.jpg" class="rounded-circle" alt="Active user">

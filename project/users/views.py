@@ -1,31 +1,39 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
+from .decorators import unauthenticated_user, allowed_users
 
 # User registration view
+@unauthenticated_user
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
             usernames = form.cleaned_data['username']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
+            group = Group.objects.get(name='reader')
+            user.groups.add(group)
+
             return redirect('login')
     else:
         form = UserRegistrationForm()
 
     return render(request, 'users/register.html', {'form': form})
 
-@login_required
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['reader'])
 def profile(request):
     return render(request, 'users/profile.html')
 
 
-@login_required
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['reader'])
 def profile_edit(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
