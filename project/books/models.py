@@ -6,6 +6,7 @@ import uuid # Required for unique book instances
 # Create your models here.
 
 class Genre(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)")
     
     def __str__(self):
@@ -13,10 +14,9 @@ class Genre(models.Model):
 
 
 class Author(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    date_of_birth = models.DateField(null=True, blank=True)
-    date_of_death = models.DateField('Died', null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('author-detail', args=[str(self.id)])
@@ -25,6 +25,7 @@ class Author(models.Model):
         return '%s, %s' % (self.last_name, self.first_name)
 
 class Book(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
