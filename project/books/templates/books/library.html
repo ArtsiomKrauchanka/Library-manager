@@ -1,8 +1,6 @@
 {% extends "landing/base_complete.html" %}
 {% load static %}
 
-
-
 {% block header %}
   <style type="text/css">
   
@@ -98,41 +96,28 @@
     content: "#";
     font-weight: bold;
   }
-
-
-
 </style>
-
 {% endblock %}
 
 {% block content %}
-
-
-
   <div class="space-80"></div>
-       
           <div class="container">
             <div class="row">
-              
-
               <div class="col-12 col-lg-10 pull-left">
-
                 <h5>Search box</h5>
                 <div class="space-10"></div>
-
-                <div class="input-group">
-                  <input type="text" name="search_input" class="input-search" placeholder="Enter book name">
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary">
-                      <i class="icofont-search-2"></i>
-                    </button>
+                <form method="GET" action="{% url 'search_book' %}">
+                  <div class="input-group">
+                    <input type="text" name="book_title" class="input-search" placeholder="Enter book title">
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-primary">
+                        <i class="icofont-search-1"></i>
+                      </button>
+                    </div>
                   </div>
-                </div>
-
+                </form>
                 <div class="space-80"></div>
-
                 <hr>
-
                 <div class="row">
                     {% for book in bookList %}                  
                     <div class="col-12 col-lg-6">
@@ -171,12 +156,8 @@
                         </div>
                     </div>
                     {% endfor %}
-
-
                 </div>
-
               </div>
-
               <div class="col-xs-12 col-md-2">
                 <div>
                   <h3>
@@ -206,22 +187,15 @@
                     </li>
                   </ul>
                 </div>
-
               </div>
-
           </div>
-
           <div class="space-80"></div>
           <div class="row">
             <div class="col-xs-12">
               <div class="pagination">
-
               </div>
             </div>
           </div>
-
         </div>
-
         <div class="space-80"></div>
-
 {% endblock %} 
