@@ -9,5 +9,5 @@ admin.site.register(BookInstance)
 
 @admin.register(Opinion)
 class OpinionAdmin(admin.ModelAdmin):
-    list_display = ('book','title', 'content', 'author', 'date_posted')
+    list_display = ('book','title', 'author', 'date_posted')
     search_fields = ('book','author', 'title', 'content')
