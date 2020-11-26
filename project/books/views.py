@@ -23,7 +23,7 @@ def bookDetails(request, pk):
     new_opinion = None
 
     # Opinion posted
-    if request.method == 'POST':
+    if request.method == 'POST' and not opinions.filter(author=request.user).exists():
         opinion_create_form = OpinionCreateForm(data=request.POST)
         if opinion_create_form.is_valid():
             new_opinion = opinion_create_form.save(commit=False)

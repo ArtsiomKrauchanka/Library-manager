@@ -23,15 +23,17 @@
                 {% if searched %}
                     <h1 style="font-weight:bold;">Search Results</h1>
                 {% endif %}
-                {% if genre %}
-                   <h1 style="font-weight:bold;">{{ genre }}</h1>
-                {% endif %}
+                
                 <!-- <ul class="list-inline list-unstyled">
                   <p class="mr-2" style="display:inline">Sort by:</p>
                   <li class="mr-2"><a href="{% url 'filter_book' %}?sort=author">Author</a></li>
                   <li class="mr-2"><a href="{% url 'filter_book' %}?sort=title">Title</a></li>
                   <li class="mr-2">Rating</li>
                 </ul> -->
+                <h1>Books</h1>
+                {% if genre %}
+                   <h2 class="mt-3" style="font-weight:bold;">{{ genre }}</h2>
+                {% endif %}
                 <hr>
                 {% if bookList|length == 0 %}
                     <h2>No Results Found</h2> 

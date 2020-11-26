@@ -76,7 +76,7 @@ class Opinion(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='opinions')
 
     class Meta:
-        ordering = ['date_posted']
+        ordering = ['-date_posted']
 
     def __str__(self):
         return f'Opinion: {self.title}, by {self.author.username}'
