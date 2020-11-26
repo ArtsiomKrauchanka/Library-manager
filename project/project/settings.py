@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'landing.apps.LandingConfig',
     'users.apps.UsersConfig',
     'books.apps.BooksConfig',
+    'ebooks.apps.EbooksConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
