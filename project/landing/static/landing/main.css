@@ -380,3 +380,21 @@ footer a:hover {
     content: "#";
     font-weight: bold;
   }
+
+/********************************/
+/***   Book details opinion   ***/
+/********************************/
+.text-black {
+    color: #000000;
+    font-weight: bold;
+}
+
+.reviews-members .media .mr-3 {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+}
+
+.rounded-pill {
+    border-radius: 50rem!important;
+} 
