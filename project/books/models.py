@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 import uuid # Required for unique book instances
 
 # Create your models here.
@@ -66,3 +67,16 @@ class BookInstance(models.Model):
 
 
 
+class Opinion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date_posted = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='opinions')
+
+    class Meta:
+        ordering = ['date_posted']
+
+    def __str__(self):
+        return f'Opinion: {self.title}, by {self.author.username}'

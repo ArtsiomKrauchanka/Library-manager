@@ -1,13 +1,13 @@
 from django.contrib import admin
+from .models import Genre, Author, Book, BookInstance, Opinion
 
-from .models import Genre
-from .models import Author
-from .models import Book
-from .models import BookInstance
 
 admin.site.register(Genre)
 admin.site.register(Author)
 admin.site.register(Book)
 admin.site.register(BookInstance)
 
-# Register your models here.
+@admin.register(Opinion)
+class OpinionAdmin(admin.ModelAdmin):
+    list_display = ('book','title', 'content', 'author', 'date_posted')
+    search_fields = ('book','author', 'title', 'content')
