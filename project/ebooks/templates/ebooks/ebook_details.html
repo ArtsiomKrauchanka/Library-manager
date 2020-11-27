@@ -39,15 +39,28 @@
                     {{ ebook.book.summary|linebreaksbr }}
                 </p>
                 <p>ISBN: {{ ebook.book.isbn|linebreaksbr }} </p>
-                <!-- {% if book.isAvailable %}
-                <p>Available: Yes </p>
-                <button type="button" class="btn btn-success">Reserve</button>
-                {% else %}
-                <p>Available: No </p>
-                {% endif %} -->
-                <!-- {% if not book.isEbook %}
-                <button type="button" class="btn btn-primary">Read online</button>
-                {% endif %} -->
+                
+                {% if ebook.pdf_book  %}
+                    <a href="{{ebook.pdf_book.url}}" target="_blank"><h5><b>Read Online</b></h5></a>
+                    <p>Or</p>
+                {% endif %}
+                <strong>Download Ebook</strong><br>
+                <div class="space-10"></div>
+                <form class="download-form" action="{% url 'download_ebook' pk=ebook.id %}?type=txt" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">
+                        <span>.txt</span>
+                        <i class="icofont-file-text"></i>
+                    </button>
+                </form>
+                
+                <form class="download-form" action="{% url 'download_ebook' pk=ebook.id %}?type=pdf" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">
+                        <span>.pdf</span>
+                        <i class="icofont-file-pdf"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.conf import settings
+from django.http import HttpResponse, Http404
 from .models import Ebook
 from books.models import Genre
 from books.forms import OpinionCreateForm
+import os
 
 def elibrary(request):
     ebook_list = Ebook.objects.all().order_by('book__title')
@@ -60,3 +63,28 @@ def ebook_filter_view(request):
     }
 
     return render(request, 'ebooks/elibrary.html', context)
+
+def download_ebook(request, pk):
+    ebook = Ebook.objects.get(id=pk)
+    file_type = request.GET.get('type')
+    path = ''
+    if file_type == "txt":
+        path = ebook.txt_book.url
+    if file_type == "pdf":
+        path = ebook.pdf_book.url
+    file_path = str(settings.BASE_DIR) + path
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            if file_type == "txt":
+                ebook.txt_download_count += 1
+                print("Txt downloaded")
+                print(ebook.txt_download_count)
+            if file_type == "pdf":
+                print("Pdf downloaded")
+                ebook.pdf_download_count += 1
+                print(ebook.pdf_download_count)
+            ebook.save()
+            return response
+    raise Http404

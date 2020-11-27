@@ -400,3 +400,15 @@ footer a:hover {
     border-radius: 50rem!important;
     width: 55px;
 } 
+
+/********************************/
+/***   Ebook details opinion   ***/
+/********************************/
+.download-form {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.download-form button {
+    font-size:15px;
+}
