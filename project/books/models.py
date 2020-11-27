@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
+import datetime
 
 import uuid # Required for unique book instances
 
@@ -68,6 +69,10 @@ class BookInstance(models.Model):
 
     def __str__(self):
         return '%s (%s)' % (self.id, self.book.title)
+
+    def get_cost(self):
+        return (datetime.datetime.today().date() - self.on_loan_end).days * 2.53
+
 
 
 

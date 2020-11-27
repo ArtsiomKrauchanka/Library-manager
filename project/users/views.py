@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
-from users.models import Profile, Payment
+from users.models import Profile
 from books.models import BookInstance
 
 
