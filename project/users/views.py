@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
 from users.models import Profile
+from books.models import BookInstance
 
 
 # User registration view
@@ -70,7 +71,6 @@ def profile_edit(request):
     return render(request, 'users/profile_edit.html')
 
 
-
 def profile_books(request):
     user_books = Profile.objects.get(user=request.user).book_list
     user = Profile.objects.get(user=request.user)
@@ -82,6 +82,11 @@ def profile_books(request):
 
 
 def user_books(request):
-    #user = (Profile.objects.all().filter(user=request.user)[0]
     user = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        print(request.POST['book_instance_id'])
+        book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
+        book_instance.status = 'a'
+        book_instance.save()
+        request.user.profile.book_list.remove(book_instance)
     return render(request, 'users/user_books.html')

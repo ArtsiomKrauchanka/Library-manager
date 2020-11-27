@@ -200,6 +200,14 @@ footer a:hover {
     cursor: pointer;
 }
 
+.discard-btn {
+    margin: 5px 5px 5px -25px;
+    background-color: #999;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+}
+
 .input-password {
     font: small-caption;
     font-size: 16px;
@@ -425,3 +433,6 @@ footer a:hover {
 .download-form button {
     font-size:15px;
 }
+
+
+
