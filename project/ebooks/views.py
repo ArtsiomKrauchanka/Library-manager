@@ -45,21 +45,30 @@ def ebook_filter_view(request):
     qs = Ebook.objects.all()
     ebook_title = request.GET.get('ebook_title')
     ebook_genre = request.GET.get('ebook_genre')
+    sort_method = request.GET.get('sort')
     
     genres = Genre.objects.all().order_by('name')
     searched = False
+    most_popular = False
 
     if is_valid_queryparam(ebook_title):
         qs = qs.filter(book__title__icontains=ebook_title).order_by('book__title')
         searched = True
     if is_valid_queryparam(ebook_genre):
         qs = qs.filter(book__genre__name=ebook_genre)
+    if is_valid_queryparam(sort_method):
+        if sort_method == 'popularity':
+            qs = qs.order_by('-download_count')
+            most_popular = True
+        else:
+            qs = qs.order_by(sort_method)
     
     context = {
         'ebook_list': qs,
         'genres': genres,
         'searched': searched,
         'genre': ebook_genre,
+        'popularity_ranking': most_popular,
     }
 
     return render(request, 'ebooks/elibrary.html', context)
@@ -77,14 +86,8 @@ def download_ebook(request, pk):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            if file_type == "txt":
-                ebook.txt_download_count += 1
-                print("Txt downloaded")
-                print(ebook.txt_download_count)
-            if file_type == "pdf":
-                print("Pdf downloaded")
-                ebook.pdf_download_count += 1
-                print(ebook.pdf_download_count)
+            ebook.download_count += 1
+            print(ebook.download_count)
             ebook.save()
             return response
     raise Http404
