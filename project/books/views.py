@@ -1,62 +1,75 @@
 from django.shortcuts import render, redirect
 from .models import Book, Author, Genre, BookInstance
 from .forms import OpinionCreateForm
+from users.models import Profile
 from django.shortcuts import render, get_object_or_404
 
 
 def library(request):
     bookList = Book.objects.all().order_by('title')
     genres = Genre.objects.all().order_by('name')
-    
+
     context = {
         'title': 'Your library',
         'library_class': 'nav-selected',
-        'show_extras': 'no', 
+        'show_extras': 'no',
         'bookList': bookList,
         'genres': genres,
     }
     return render(request, 'books/library.html', context)
 
-def bookDetails(request, pk):
-    book = get_object_or_404(Book, id=pk)
-    try:
-        instanceList = BookInstance.objects.all().filter(book=pk, status = 'a')
-        if(len(instanceList) == 0):
-            instance = None
-        else:
-            instance = instanceList[0]
-        #instance = BookInstance.objects.get(book = pk, status = 'a')
-    except BookInstance.DoesNotExist:
-        instance = None
 
+
+def bookDetails(request, pk):
+    def get_instance_of_book():
+        instance_list = BookInstance.objects.all().filter(book=pk, status='a')
+        if len(instance_list) == 0:
+            instance_of_book: BookInstance = None
+        else:
+            instance_of_book = instance_list[0]
+        return instance_of_book
+
+    # instance = BookInstance.objects.get(book = pk, status = 'a')
+
+    book = get_object_or_404(Book, id=pk)
+    instance = get_instance_of_book()
     opinions = book.opinions.all()
     new_opinion = None
 
     # Opinion posted
     if request.method == 'POST':
-        if not opinions.filter(author=request.user).exists():
-            opinion_create_form = OpinionCreateForm(data=request.POST)
-            if opinion_create_form.is_valid():
+        opinion_create_form = OpinionCreateForm(data=request.POST)
+        if opinion_create_form.is_valid():
+            if not opinions.filter(author=request.user).exists():
                 new_opinion = opinion_create_form.save(commit=False)
                 new_opinion.book = book
                 new_opinion.author = request.user
                 opinion_create_form.save()
         else:
-            opinion_create_form = OpinionCreateForm()
+            profile = Profile.objects.get(user=request.user)
+            profile.book_list.add(instance)
+            profile.save()
+            if instance is not None:
+                instance.status = 'r'
+                instance.save()
+            instance = get_instance_of_book()
 
-
+    else:
+        opinion_create_form = OpinionCreateForm()
 
     return render(request, 'books/book_details.html', {'title': 'Book details', 'book': book, 'Instance': instance})
 
+
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
 
 def book_filter_view(request):
     qs = Book.objects.all()
     book_title = request.GET.get('book_title')
     book_author = request.GET.get('book_author')
     book_genre = request.GET.get('book_genre')
-    
+
     genres = Genre.objects.all().order_by('name')
     searched = False
 
@@ -69,7 +82,7 @@ def book_filter_view(request):
         searched = True
     if is_valid_queryparam(book_genre):
         qs = qs.filter(genre__name=book_genre)
-    
+
     context = {
         'bookList': qs,
         'genres': genres,

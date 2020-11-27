@@ -8,7 +8,7 @@ class Profile(models.Model):
     favourite_book = models.CharField(default='', max_length=150)
     favourite_genre = models.CharField(default='', max_length=150)
     mobile_phone = models.CharField(default='', max_length=9)
-    book_list = models.ManyToManyField(BookInstance)
+    book_list = models.ManyToManyField(BookInstance, default=None, blank=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
