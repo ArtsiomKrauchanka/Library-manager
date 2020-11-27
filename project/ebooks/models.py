@@ -13,8 +13,7 @@ class Ebook(models.Model):
                                 validators=[FileExtensionValidator(allowed_extensions=['txt'])])
     pdf_book = models.FileField(blank=True, null=True, upload_to=ebook_directory_path,
                                 validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
-    txt_download_count = models.IntegerField(default=0, editable=False)
-    pdf_download_count = models.IntegerField(default=0, editable=False)
+    download_count = models.IntegerField(default=0, editable=False)
 
     def __str__(self):
         return f'Ebook: {self.book.title}, {self.book.author}'

@@ -77,14 +77,8 @@ def download_ebook(request, pk):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            if file_type == "txt":
-                ebook.txt_download_count += 1
-                print("Txt downloaded")
-                print(ebook.txt_download_count)
-            if file_type == "pdf":
-                print("Pdf downloaded")
-                ebook.pdf_download_count += 1
-                print(ebook.pdf_download_count)
+            ebook.download_count += 1
+            print(ebook.download_count)
             ebook.save()
             return response
     raise Http404
