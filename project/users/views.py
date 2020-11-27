@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -72,21 +74,20 @@ def profile_edit(request):
 
 
 def profile_books(request):
-    user_books = Profile.objects.get(user=request.user).book_list
-    user = Profile.objects.get(user=request.user)
-    print("--------------")
-    print(user)
-    print("--------------")
-    user = Profile.objects.get(user=request.user)
-    return render(request, 'users/profile_books.html', {'user': user})
+    return render(request, 'users/profile_books.html')
 
 
 def user_books(request):
-    user = Profile.objects.get(user=request.user)
+    # user = Profile.objects.get(user=request.user)
     if request.method == 'POST':
-        print(request.POST['book_instance_id'])
-        book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
-        book_instance.status = 'a'
-        book_instance.save()
-        request.user.profile.book_list.remove(book_instance)
-    return render(request, 'users/user_books.html')
+        if 'book_instance_id' in request.POST:
+            book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
+            book_instance.status = 'a'
+            book_instance.save()
+            request.user.profile.book_list.remove(book_instance)
+        if 'book_instance_extend_id' in request.POST:
+            book_instance = BookInstance.objects.get(id=request.POST['book_instance_extend_id'])
+            book_instance.on_loan_end += datetime.timedelta(weeks=4 * book_instance.on_loan_duration)
+            book_instance.save()
+
+    return render(request, 'users/user_books.html', {'current_data': datetime.datetime.today().date()})

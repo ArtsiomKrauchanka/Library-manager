@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from books.models import BookInstance
+from django.contrib.auth.models import User
+
+
+
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -9,6 +14,8 @@ class Profile(models.Model):
     favourite_genre = models.CharField(default='', max_length=150)
     mobile_phone = models.CharField(default='', max_length=9)
     book_list = models.ManyToManyField(BookInstance, blank=True)
+    #payments=models.ManyToManyField(Payments,blank=True)
 
     def __str__(self):
         return f'Profile username:{self.user.username} '
+
