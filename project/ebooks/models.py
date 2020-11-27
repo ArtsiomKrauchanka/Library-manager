@@ -1,15 +1,20 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from books.models import Book
 import uuid
 
 def ebook_directory_path(instance, filename):
-    return f'ebooks/{instance.book.title}/{filename}'
+    return f'ebooks/{instance.book.title.replace(" ", "_")}/{filename}'
 
 class Ebook(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     book = models.OneToOneField(Book, on_delete=models.CASCADE)
-    txt_book = models.FileField(blank=True, null=True, upload_to=ebook_directory_path)
-    pdf_book = models.FileField(blank=True, null=True, upload_to=ebook_directory_path)
+    txt_book = models.FileField(blank=True, null=True, upload_to=ebook_directory_path,
+                                validators=[FileExtensionValidator(allowed_extensions=['txt'])])
+    pdf_book = models.FileField(blank=True, null=True, upload_to=ebook_directory_path,
+                                validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    txt_download_count = models.IntegerField(default=0, editable=False)
+    pdf_download_count = models.IntegerField(default=0, editable=False)
 
     def __str__(self):
         return f'Ebook: {self.book.title}, {self.book.author}'
