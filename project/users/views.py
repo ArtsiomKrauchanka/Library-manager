@@ -19,6 +19,9 @@ def login_page(request):
             if user.groups.filter(name="admin").exists() or user.groups.filter(name="librarian").exists():
                 return redirect('admin')
             return redirect('landing-home')
+        else:
+            messages.error(request, "Wrong username/email or password")
+            return redirect('login')
     return render(request, 'users/login.html')
 
 @unauthenticated_user
@@ -57,7 +60,7 @@ def profile_edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, f"Your account has been updated successfully!")
+            messages.success(request, f"Your account profile has been updated successfully!")
             return redirect('profile')
     else:
         user_form = UserUpdateForm(instance=request.user)

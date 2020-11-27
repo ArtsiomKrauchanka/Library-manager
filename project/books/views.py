@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Book, Author, Genre
 from .forms import OpinionCreateForm
 from django.shortcuts import render, get_object_or_404
@@ -23,13 +24,18 @@ def bookDetails(request, pk):
     new_opinion = None
 
     # Opinion posted
-    if request.method == 'POST' and not opinions.filter(author=request.user).exists():
+    if request.method == 'POST':
         opinion_create_form = OpinionCreateForm(data=request.POST)
         if opinion_create_form.is_valid():
+            if opinions.filter(author=request.user).exists():
+                messages.warning(request, "Cannot add another review. You have already reviewed this book!")
+                return redirect(f'/book_details/{pk}/')
             new_opinion = opinion_create_form.save(commit=False)
             new_opinion.book = book
             new_opinion.author = request.user
             opinion_create_form.save()
+            messages.success(request, "Review succesfully added!")
+            return redirect(f'/book_details/{pk}/')
     else:
         opinion_create_form = OpinionCreateForm()
 
