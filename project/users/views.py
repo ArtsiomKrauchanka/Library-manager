@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
+from users.models import Profile
 
 # User registration view
 @unauthenticated_user
@@ -64,3 +65,41 @@ def profile_edit(request):
         profile_form = ProfileUpdateForm(instance=request.user.profile)
         
     return render(request, 'users/profile_edit.html')
+
+def user_books(request):
+    #user = (Profile.objects.all().filter(user=request.user)[0]
+    user = Profile.objects.get(user=request.user)
+    return render(request, 'users/user_books.html', {'title': 'My Books', 'user': user})
+
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+
+def my_book_filter_view(request):
+    qs = Profile.objects.get(user=request.user).book_list.objects.all()
+    book_title = request.GET.get('book_title')
+    book_author = request.GET.get('book_author')
+    book_genre = request.GET.get('book_genre')
+
+    genres = Genre.objects.all().order_by('name')
+    searched = False
+
+    if is_valid_queryparam(book_title):
+        qs = qs.filter(title__icontains=book_title).order_by('title')
+        searched = True
+    elif is_valid_queryparam(book_author):
+        qs = qs.filter(author__last_name__icontains=book_author) | qs.filter(author__first_name__icontains=book_author)
+        qs = qs.order_by('title')
+        searched = True
+    if is_valid_queryparam(book_genre):
+        qs = qs.filter(genre__name=book_genre)
+
+    context = {
+        'bookList': qs,
+        'genres': genres,
+        'searched': searched,
+        'genre': book_genre,
+    }
+
+    return render(request, 'users/user_books.html', context)
