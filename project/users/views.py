@@ -70,12 +70,18 @@ def profile_edit(request):
     return render(request, 'users/profile_edit.html')
 
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['reader'])
-def profile_books(request):
 
+def profile_books(request):
     user_books = Profile.objects.get(user=request.user).book_list
+    user = Profile.objects.get(user=request.user)
     print("--------------")
-    print(user_books)
+    print(user)
     print("--------------")
-    return render(request, 'users/profile_books.html', {'books': user_books})
+    user = Profile.objects.get(user=request.user)
+    return render(request, 'users/profile_books.html', {'user': user})
+
+
+def user_books(request):
+    #user = (Profile.objects.all().filter(user=request.user)[0]
+    user = Profile.objects.get(user=request.user)
+    return render(request, 'users/user_books.html')

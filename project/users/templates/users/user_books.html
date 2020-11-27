@@ -1,66 +1,59 @@
-{% extends "landing/base_complete.html" %}
+{% extends "landing/base_without_footer.html" %}.html" %}
 {% load static %}
-
 {% block content %}
-<div class="space-80"></div>
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-lg-10 pull-left">
-            <div class="space-30"></div>
-            <h1>My Books</h1>
-            <hr>
-            {% if user.book_list.all|length == 0 %}
-            <h2>No Results Found</h2>
-            {% endif %}
-            <div class="row">
-                {% for bookInstance in user.book_list.all %}
-                <div class="col-12 col-lg-6">
-                    <div class="book-item">
-                        <div class="row">
-                            <div class="col-12 col-lg-5 book-item-image">
-                                <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="150">
-                            </div>
-                            <div class="col-12 col-lg-7 book-item-body">
-                                <h5>{{ bookInstance.book.title }}</h5>
-                                <h6>{{ bookInstance.book.author }}</h6>
-                                <div class="space-10"></div>
-                                <ul class="list-inline list-unstyled rating-star">
-                                    <li class="active-star">
-                                        <i class="icofont-star"></i>
-                                    </li>
-                                    <li class="active-star">
-                                        <i class="icofont-star"></i>
-                                    </li>
-                                    <li class="active-star">
-                                        <i class="icofont-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="icofont-star"></i>
-                                    </li>
-                                    <li>
-                                        <i class="icofont-star"></i>
-                                    </li>
-                                </ul>
-                                <p>
-                                    {{ bookInstance.book.summary|linebreaksbr }}
-                                </p>
-
-                            </div>
-                        </div>
+<div class="wrapper bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 inner bg-white">
+                <div class="profile-nav">
+                    <div class="user-heading round">
+                        <a href=""><img src="/static/landing/img/profile_pic.jpg" alt=""></a>
+                        <h1>{{ user.username }}</h1>
                     </div>
+
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-link"><a href="{% url 'profile' %}">Profile</a></li>
+                        <li class="nav-link active"><a href="">My Books</a></li>
+                        <li class="nav-link"><a href="{% url 'profile_edit' %}">Edit Profile</a></li>
+                    </ul>
                 </div>
-                {% endfor %}
             </div>
-        </div>
-        
-    </div>
-    <div class="space-80"></div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="pagination">
+            <div class="col-md-8 inner bg-white">
+                <div class="panel">
+                    <h2 class="mb-4">My books</h2>
+                    {% if user.profile.book_list.all|length == 0 %}
+                    <h2>No Books Found</h2>
+                    {% else %}
+                    <form method="POST">
+                        {% csrf_token %}
+                         <div>
+                             <div class="row">
+                                 {% for bookInstance in user.profile.book_list.all %}
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-2 book-item-image">
+                                                <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="50">
+                                            </div>
+                                            <div class="col-5 book-item-body">
+                                                <p>{{ bookInstance.book.title }}</p>
+                                                <h6>{{ bookInstance.book.author }}</h6>
+                                            </div>
+                                            <div class="col-5">
+                                                <div class="text-center">
+                                                    <button class="confirm-btn" type="submit">Discard reservation</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                         </div>
+                    </form>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="space-80"></div>
-{% endblock %} 
+{% endblock %}
