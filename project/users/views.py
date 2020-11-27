@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
-from users.models import Profile
+from users.models import Profile, Payment
 from books.models import BookInstance
 
 
@@ -76,7 +76,8 @@ def profile_edit(request):
 def profile_books(request):
     return render(request, 'users/profile_books.html')
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['reader'])
 def user_books(request):
     # user = Profile.objects.get(user=request.user)
     if request.method == 'POST':

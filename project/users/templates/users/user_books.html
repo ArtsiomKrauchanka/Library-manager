@@ -118,51 +118,43 @@
                         </div>
                     </div>
 
-                     <div class="panel panel-primary">
-                    <div class="panel-heading"><h3>Arrears payment</h3></div>
+                    {% endif %}
+
+                    {% if user.profile.payment.all|length == 0 %}
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3>Arrears payment</h3></div>
                         <div class="panel-body">
                             <div class="row">
                                  <div class="col-12">
                                      <div class="row" style="">
                                         <div class="col-2">Image</div>
                                         <div class="col-5">Title, author</div>
-                                        <div class="col-3">Returned date</div>
-                                        <div class="col-2">Action</div>
+                                        <div class="col-3">Exceeded days</div>
+                                        <div class="col-2">Cost</div>
                                      </div>
                                  </div>
                             </div>
                             <div>
                                  <div class="row">
-                                     {% for bookInstance in user.profile.book_list.all %}
-                                         {% if bookInstance.status  == 'o' %}
-                                                <div class="col-12">
-                                                    <div class="row row-record">
-                                                        <div class="col-2">
-                                                            <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="50">
-                                                        </div>
-                                                        <div class="col-5">
-                                                            <h5>{{ bookInstance.book.title }}</h5>
-                                                            <h6>{{ bookInstance.book.author }} ,{{ bookInstance.imprint }}</h6>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <h5 class="{% if current_data > bookInstance.on_loan_end %}book_return_expired{%endif%}">{{bookInstance.on_loan_end}}</h5>
-                                                        </div>
-                                                         <div class="col-2">
-                                                             {% if current_data < bookInstance.on_loan_end %}
-                                                            <div class="text-center">
-                                                                 <form method="POST">
-                                                                {% csrf_token %}
-                                                                    <input type="hidden" name="book_instance_extend_id" value="{{bookInstance.id}}">
-                                                                     <button class="discard-btn" type="submit">Extend</button>
-
-                                                                 </form>
-                                                            </div>
-                                                             {%else%}
-                                                             {%endif%}
-                                                         </div>
-                                                    </div>
+                                     {% for payment in user.profile.payments.all %}
+                                        <div class="col-12">
+                                            <div class="row row-record">
+                                                <div class="col-2">
+                                                    <img src="{{ payment.book_instance.book.image.url }}" class="book-item-object" width="50">
                                                 </div>
-                                         {% endif %}
+                                                <div class="col-5">
+                                                    <h5>{{ payment.book_instance.book.title }}</h5>
+                                                    <h6>{{ payment.book_instance.book.author }} ,{{ payment.book_instance.imprint }}</h6>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h5>{{payment.day_exceeded}}</h5>
+                                                </div>
+                                                 <div class="col-2">
+                                                     {{payment.value}}
+                                                 </div>
+                                            </div>
+                                        </div>
                                     {% endfor %}
                                 </div>
                             </div>
