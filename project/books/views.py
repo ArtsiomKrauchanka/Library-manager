@@ -43,7 +43,7 @@ def bookDetails(request, pk):
                 opinion_create_form.save()
         else:
             opinion_create_form = OpinionCreateForm()
-        
+
 
 
     return render(request, 'books/book_details.html', {'title': 'Book details', 'book': book, 'Instance': instance})
