@@ -39,15 +39,18 @@
                     {{ book.summary|linebreaksbr }}
                 </p>
                 <p>ISBN: {{ book.isbn|linebreaksbr }} </p>
-                <!-- {% if book.isAvailable %}
+                {% if Instance %}
                 <p>Available: Yes </p>
-                <button type="button" class="btn btn-success">Reserve</button>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success">Reserve</button>
+                    </div>
+                </form>
                 {% else %}
                 <p>Available: No </p>
-                {% endif %} -->
-                <!-- {% if not book.isEbook %}
-                <button type="button" class="btn btn-primary">Read online</button>
-                {% endif %} -->
+                {% endif %} 
+                
             </div>
         </div>
     </div>

@@ -20,25 +20,33 @@ def library(request):
 def bookDetails(request, pk):
     book = get_object_or_404(Book, id=pk)
     try:
-        instance = (BookInstance.objects.get('book'= ))
-    except SomeModel.DoesNotExist:
-        go = None
-    instance = get_object_or_404(BookInstance, =)
+        instanceList = BookInstance.objects.all().filter(book=pk, status = 'a')
+        if(len(instanceList) == 0):
+            instance = None
+        else:
+            instance = instanceList[0]
+        #instance = BookInstance.objects.get(book = pk, status = 'a')
+    except BookInstance.DoesNotExist:
+        instance = None
+
     opinions = book.opinions.all()
     new_opinion = None
 
     # Opinion posted
-    if request.method == 'POST' and not opinions.filter(author=request.user).exists():
-        opinion_create_form = OpinionCreateForm(data=request.POST)
-        if opinion_create_form.is_valid():
-            new_opinion = opinion_create_form.save(commit=False)
-            new_opinion.book = book
-            new_opinion.author = request.user
-            opinion_create_form.save()
-    else:
-        opinion_create_form = OpinionCreateForm()
+    if request.method == 'POST':
+        if not opinions.filter(author=request.user).exists():
+            opinion_create_form = OpinionCreateForm(data=request.POST)
+            if opinion_create_form.is_valid():
+                new_opinion = opinion_create_form.save(commit=False)
+                new_opinion.book = book
+                new_opinion.author = request.user
+                opinion_create_form.save()
+        else:
+            opinion_create_form = OpinionCreateForm()
+        
 
-    return render(request, 'books/book_details.html', {'title': 'Book details', 'book': book})
+
+    return render(request, 'books/book_details.html', {'title': 'Book details', 'book': book, 'Instance': instance})
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
