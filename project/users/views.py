@@ -7,13 +7,14 @@ from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
 from users.models import Profile
 
+
 # User registration view
 @unauthenticated_user
 def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -21,6 +22,7 @@ def login_page(request):
                 return redirect('admin')
             return redirect('landing-home')
     return render(request, 'users/login.html')
+
 
 @unauthenticated_user
 def register(request):
@@ -41,6 +43,7 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'users/register.html', {'form': form})
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['reader'])
@@ -63,12 +66,16 @@ def profile_edit(request):
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-        
+
     return render(request, 'users/profile_edit.html')
 
-def user_books(request):
-    #user = (Profile.objects.all().filter(user=request.user)[0]
-    user = Profile.objects.get(user=request.user)
-    return render(request, 'users/user_books.html', {'title': 'My Books', 'user': user})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['reader'])
+def profile_books(request):
 
+    user_books = Profile.objects.get(user=request.user).book_list
+    print("--------------")
+    print(user_books)
+    print("--------------")
+    return render(request, 'users/profile_books.html', {'books': user_books})

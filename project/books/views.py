@@ -24,16 +24,19 @@ def bookDetails(request, pk):
     def get_instance_of_book():
         instance_list = BookInstance.objects.all().filter(book=pk, status='a')
         if len(instance_list) == 0:
-            instance_of_book: BookInstance = None
+            instance_of_book = None
         else:
             instance_of_book = instance_list[0]
         return instance_of_book
+
 
     # instance = BookInstance.objects.get(book = pk, status = 'a')
 
     book = get_object_or_404(Book, id=pk)
     instance = get_instance_of_book()
     opinions = book.opinions.all()
+
+
     new_opinion = None
 
     # Opinion posted
@@ -46,13 +49,13 @@ def bookDetails(request, pk):
                 new_opinion.author = request.user
                 opinion_create_form.save()
         else:
-            profile = Profile.objects.get(user=request.user)
-            profile.book_list.add(instance)
-            profile.save()
             if instance is not None:
+                profile = Profile.objects.all().filter(user=request.user)[0]
+                profile.book_list.add(instance)
+                profile.save()
                 instance.status = 'r'
                 instance.save()
-            instance = get_instance_of_book()
+                instance = get_instance_of_book()
 
     else:
         opinion_create_form = OpinionCreateForm()
