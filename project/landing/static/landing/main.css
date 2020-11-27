@@ -381,6 +381,19 @@ footer a:hover {
     font-weight: bold;
   }
 
+  .sort-menu li a{
+    color: #5d5d5d;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s
+  }
+
+  .sort-menu li a:hover{
+    color: #FAC71B;
+  }
+
+  .sort-menu li a::before{
+    font-weight: bold;
+  }
+
 /********************************/
 /***   Book details opinion   ***/
 /********************************/

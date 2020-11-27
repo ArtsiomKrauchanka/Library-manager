@@ -45,21 +45,30 @@ def ebook_filter_view(request):
     qs = Ebook.objects.all()
     ebook_title = request.GET.get('ebook_title')
     ebook_genre = request.GET.get('ebook_genre')
+    sort_method = request.GET.get('sort')
     
     genres = Genre.objects.all().order_by('name')
     searched = False
+    most_popular = False
 
     if is_valid_queryparam(ebook_title):
         qs = qs.filter(book__title__icontains=ebook_title).order_by('book__title')
         searched = True
     if is_valid_queryparam(ebook_genre):
         qs = qs.filter(book__genre__name=ebook_genre)
+    if is_valid_queryparam(sort_method):
+        if sort_method == 'popularity':
+            qs = qs.order_by('-download_count')
+            most_popular = True
+        else:
+            qs = qs.order_by(sort_method)
     
     context = {
         'ebook_list': qs,
         'genres': genres,
         'searched': searched,
         'genre': ebook_genre,
+        'popularity_ranking': most_popular,
     }
 
     return render(request, 'ebooks/elibrary.html', context)

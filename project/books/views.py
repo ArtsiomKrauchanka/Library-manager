@@ -43,7 +43,7 @@ def book_filter_view(request):
     book_title = request.GET.get('book_title')
     book_author = request.GET.get('book_author')
     book_genre = request.GET.get('book_genre')
-    
+    sort_method = request.GET.get('sort')
     genres = Genre.objects.all().order_by('name')
     searched = False
 
@@ -56,6 +56,8 @@ def book_filter_view(request):
         searched = True
     if is_valid_queryparam(book_genre):
         qs = qs.filter(genre__name=book_genre)
+    if is_valid_queryparam(sort_method):
+        qs = qs.order_by(sort_method)
     
     context = {
         'bookList': qs,
