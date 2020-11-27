@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Book, Author, Genre
+from .models import Book, Author, Genre, BookInstance
 from .forms import OpinionCreateForm
 from django.shortcuts import render, get_object_or_404
 
@@ -19,6 +19,11 @@ def library(request):
 
 def bookDetails(request, pk):
     book = get_object_or_404(Book, id=pk)
+    try:
+        instance = (BookInstance.objects.get('book'= ))
+    except SomeModel.DoesNotExist:
+        go = None
+    instance = get_object_or_404(BookInstance, =)
     opinions = book.opinions.all()
     new_opinion = None
 
