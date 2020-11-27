@@ -1,0 +1,66 @@
+{% extends "landing/base_complete.html" %}
+{% load static %}
+
+{% block content %}
+<div class="space-80"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-10 pull-left">
+            <div class="space-30"></div>
+            <h1>My Books</h1>
+            <hr>
+            {% if user.book_list.all|length == 0 %}
+            <h2>No Results Found</h2>
+            {% endif %}
+            <div class="row">
+                {% for bookInstance in user.book_list.all %}
+                <div class="col-12 col-lg-6">
+                    <div class="book-item">
+                        <div class="row">
+                            <div class="col-12 col-lg-5 book-item-image">
+                                <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="150">
+                            </div>
+                            <div class="col-12 col-lg-7 book-item-body">
+                                <h5>{{ bookInstance.book.title }}</h5>
+                                <h6>{{ bookInstance.book.author }}</h6>
+                                <div class="space-10"></div>
+                                <ul class="list-inline list-unstyled rating-star">
+                                    <li class="active-star">
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                    <li class="active-star">
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                    <li class="active-star">
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                    <li>
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                </ul>
+                                <p>
+                                    {{ bookInstance.book.summary|linebreaksbr }}
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+    <div class="space-80"></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pagination">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-80"></div>
+{% endblock %} 
