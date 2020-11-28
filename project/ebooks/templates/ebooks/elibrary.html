@@ -60,21 +60,21 @@
                                   <h6>{{ ebook.book.author }}</h6>
                                   <div class="space-10"></div>
                                   <ul class="list-inline list-unstyled rating-star">
-                                      <li class="active-star">
-                                          <i class="icofont-star"></i>
-                                      </li>
-                                      <li class="active-star">
-                                          <i class="icofont-star"></i>
-                                      </li>
-                                      <li class="active-star">
-                                          <i class="icofont-star"></i>
-                                      </li>
-                                      <li>
-                                          <i class="icofont-star"></i>
-                                      </li>
-                                      <li>
-                                          <i class="icofont-star"></i>
-                                      </li>
+                                        {% for _ in ebook.book.get_enabled_star %}
+                                            <li class="active-star">
+                                                <i class="icofont-star"></i>
+                                            </li>
+                                        {% endfor %}
+                                        {% if ebook.book.is_half_star_active %}
+                                            <li class="active-half-star">
+                                                <i class="icofont-star"></i>
+                                            </li>
+                                        {% endif %}
+                                        {% for _ in ebook.book.get_disabled_star %}
+                                            <li>
+                                                <i class="icofont-star"></i>
+                                            </li>
+                                        {% endfor %}
                                   </ul>
                                   <p>
                                       {{ ebook.book.summary|linebreaksbr }}

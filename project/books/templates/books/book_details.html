@@ -2,7 +2,14 @@
 {% load static %}
 {% load landing_extras %}
 
-{% block content %} 
+{% block content %}
+<style>
+    .active-half-star{
+        background: linear-gradient(90deg, #FAC71B 40%, #A8A498 30%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
 <div class="wrapper-detail bg-gray" style="padding-top: 60pt;">
     <div class="container inner bg-white mt-5">
         <div class="row ">
@@ -13,22 +20,23 @@
             <div class="col-lg-7 align-items-start mt-3">
                 <h1>{{ book.title }}</h1>
                 <p>{{ book.author }}</p>
+                <!--book.rating-->
                 <ul class="list-inline list-unstyled rating-star">
-                    <li class="active-star">
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li class="active-star">
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li class="active-star">
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li>
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li>
-                        <i class="icofont-star"></i>
-                    </li>
+                    {% for _ in book.get_enabled_star %}
+                        <li class="active-star">
+                            <i class="icofont-star"></i>
+                        </li>
+                    {% endfor %}
+                    {% if book.is_half_star_active %}
+                        <li class="active-half-star">
+                            <i class="icofont-star"></i>
+                        </li>
+                    {% endif %}
+                    {% for _ in book.get_disabled_star %}
+                        <li>
+                            <i class="icofont-star"></i>
+                        </li>
+                    {% endfor %}
                 </ul>
                 <p>Genre: 
                     {% for genre in book.genre.all %} 
@@ -59,6 +67,33 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
+
+                <label class="ml-1"  for="opinion_title">Rating: </label>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline1" name="rating" value="1">
+                  <label class="custom-control-label" for="defaultInline1">1</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline2" name="rating" value="2">
+                  <label class="custom-control-label" for="defaultInline2">2</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline3" name="rating" value="3">
+                  <label class="custom-control-label" for="defaultInline3">3</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline4" name="rating" value="4">
+                  <label class="custom-control-label" for="defaultInline4">4</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline5" name="rating" checked value="5">
+                  <label class="custom-control-label" for="defaultInline5">5</label>
+                </div>
+
                 <legend class="border-bottom mb-4">Your Opinion</legend>
                 <label class="ml-1"  for="opinion_title">Title</label>
                 <input id="opinion_title" name="title" type="text" class="form-control mb-3">
@@ -81,6 +116,7 @@
                     <a href="#"><img alt="Generic placeholder image" src="{{ opinion.author.profile.image.url}}" class="mr-3 rounded-pill"></a>
                     <div class="media-body">
                         <div class="reviews-members-header">
+                            <h2>{{opinion.rating}}</h2>
                             <h6 class="mb-1"><a class="text-black" href="#">{{ opinion.author.username }}</a></h6>
                             <p class="text-gray">{{ opinion.date_posted|date:"F d, Y" }}</p>
                         </div>

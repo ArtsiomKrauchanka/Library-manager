@@ -14,22 +14,22 @@
                 <h1>{{ ebook.book.title }}</h1>
                 <p>{{ ebook.book.author }}</p>
                 <ul class="list-inline list-unstyled rating-star">
-                    <li class="active-star">
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li class="active-star">
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li class="active-star">
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li>
-                        <i class="icofont-star"></i>
-                    </li>
-                    <li>
-                        <i class="icofont-star"></i>
-                    </li>
-                </ul>
+                    {% for _ in ebook.book.get_enabled_star %}
+                        <li class="active-star">
+                            <i class="icofont-star"></i>
+                        </li>
+                    {% endfor %}
+                    {% if ebook.book.is_half_star_active %}
+                        <li class="active-half-star">
+                            <i class="icofont-star"></i>
+                        </li>
+                    {% endif %}
+                    {% for _ in ebook.book.get_disabled_star %}
+                        <li>
+                            <i class="icofont-star"></i>
+                        </li>
+                    {% endfor %}
+              </ul>
                 <p>Genre: 
                     {% for genre in ebook.book.genre.all %} 
                         {{genre.name}}{% if not forloop.last %},{% endif %}

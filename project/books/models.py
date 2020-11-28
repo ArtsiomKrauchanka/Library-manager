@@ -4,14 +4,15 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import datetime
 
-import uuid # Required for unique book instances
+import uuid  # Required for unique book instances
+
 
 # Create your models here.
 
 class Genre(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)")
-    
+
     def __str__(self):
         return self.name
 
@@ -27,27 +28,41 @@ class Author(models.Model):
     def __str__(self):
         return '%s, %s' % (self.last_name, self.first_name)
 
+
 class Book(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
-    isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
+    isbn = models.CharField('ISBN', max_length=13,
+                            help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     image = models.ImageField(default='book_default.jpg', upload_to='books_pics')
-    rating = models.FloatField()
+    rating = models.FloatField(default=5)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('book-detail', args=[str(self.id)])  
+        return reverse('book-detail', args=[str(self.id)])
 
+    def get_enabled_star(self):
+        return range(int(self.rating))
 
+    def get_disabled_star(self):
+        disabled_star = 5 - int(self.rating)
+        if float(int(self.rating)) - self.rating != 0.0:
+            disabled_star = 4 - int(self.rating)
+        print(disabled_star)
+        return range(disabled_star)
+
+    def is_half_star_active(self):
+        return True if float(int(self.rating)) - self.rating != 0.0 else False
 
 
 class BookInstance(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text="Unique ID for this particular book across whole library")
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     on_loan_start = models.DateField(null=True, blank=True)
@@ -67,7 +82,6 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ["due_back"]
-        
 
     def __str__(self):
         return '%s (%s)' % (self.id, self.book.title)
@@ -79,8 +93,6 @@ class BookInstance(models.Model):
         return (datetime.datetime.today().date() - self.on_loan_end).days
 
 
-
-
 class Opinion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100)
@@ -88,6 +100,7 @@ class Opinion(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='opinions')
+    rating = models.IntegerField(default=5)
 
     class Meta:
         ordering = ['-date_posted']
