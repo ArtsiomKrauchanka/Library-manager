@@ -58,6 +58,8 @@ def bookDetails(request, pk):
             new_opinion.author = request.user
             opinion_create_form.save()
             update_book_rating()
+            messages.success(request, "Review succesfully added!")
+            return redirect(f'/book_details/{pk}/')
         else:
             if instance is not None:
                 profile = Profile.objects.all().filter(user=request.user)[0]
@@ -66,8 +68,6 @@ def bookDetails(request, pk):
                 instance.status = 'r'
                 instance.save()
                 instance = get_instance_of_book()
-                messages.success(request, "Review succesfully added!")
-            return redirect(f'/book_details/{pk}/')
     else:
         opinion_create_form = OpinionCreateForm()
 
