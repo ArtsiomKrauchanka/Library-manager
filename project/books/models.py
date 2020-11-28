@@ -38,7 +38,7 @@ class Book(models.Model):
                             help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     image = models.ImageField(default='book_default.jpg', upload_to='books_pics')
-    rating = models.FloatField(default=5)
+    rating = models.FloatField(default=0)
 
     def __str__(self):
         return self.title

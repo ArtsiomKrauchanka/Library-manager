@@ -40,8 +40,8 @@ def bookDetails(request, pk):
         return instance_of_book
 
     # instance = BookInstance.objects.get(book = pk, status = 'a')
-
     instance = get_instance_of_book()
+
     opinions = book.opinions.all()
 
     new_opinion = None
@@ -50,9 +50,10 @@ def bookDetails(request, pk):
     if request.method == 'POST':
         opinion_create_form = OpinionCreateForm(data=request.POST)
         if opinion_create_form.is_valid():
-			if opinions.filter(author=request.user).exists():
+            if opinions.filter(author=request.user).exists():
                 messages.warning(request, "Cannot add another review. You have already reviewed this book!")
-                return redirect(f'/book_details/{pk}/')			new_opinion = opinion_create_form.save(commit=False)
+                return redirect(f'/book_details/{pk}/')
+            new_opinion = opinion_create_form.save(commit=False)
             new_opinion.book = book
             new_opinion.author = request.user
             opinion_create_form.save()
@@ -64,7 +65,8 @@ def bookDetails(request, pk):
                 profile.save()
                 instance.status = 'r'
                 instance.save()
-                instance = get_instance_of_book()            messages.success(request, "Review succesfully added!")
+                instance = get_instance_of_book()
+                messages.success(request, "Review succesfully added!")
             return redirect(f'/book_details/{pk}/')
     else:
         opinion_create_form = OpinionCreateForm()

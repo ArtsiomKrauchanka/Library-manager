@@ -46,10 +46,10 @@ def ebook_details(request, pk):
             new_opinion.book = ebook.book
             new_opinion.author = request.user
             opinion_create_form.save()
-			
-			update_book_rating()
-			messages.success(request, "Review succesfully added!")
-	        return redirect(f'/ebook_details/{pk}/')    else:
+            update_book_rating()
+            messages.success(request, "Review succesfully added!")
+            return redirect(f'/ebook_details/{pk}/')
+    else:
         opinion_create_form = OpinionCreateForm()
 
     return render(request, 'ebooks/ebook_details.html', {'title': 'Book details', 'ebook': ebook})
