@@ -28,7 +28,7 @@ def ebook_details(request, pk):
         rating = 0
         for opinion in ebook.book.opinions.all():
             rating += opinion.rating
-        ebook.book.rating = rating / len(ebook.book.opinions.all())
+        ebook.book.rating = round(rating / len(ebook.book.opinions.all()), 2)
         ebook.book.save()
 
     opinions = ebook.book.opinions.all()

@@ -32,6 +32,7 @@
                   <p class="mr-2" style="display:inline">Sort by:</p>
                   <li class="mr-2"><a href="{% url 'filter_book' %}?sort=author__last_name">Author</a></li>
                   <li class="mr-2"><a href="{% url 'filter_book' %}?sort=title">Title</a></li>
+                  <li class="mr-2"><a href="{% url 'filter_book' %}?sort=popularity">Most Popular</a></li>
                 </ul>
                 <hr>
                 {% if bookList|length == 0 %}
@@ -41,6 +42,9 @@
                   {% for book in bookList %}                  
                   <div class="col-12 col-lg-6">
                       <div class="book-item">
+                           {% if popularity_ranking %}
+                          <legend class="ml-2 mb-3">{{ forloop.counter }}# Ebook Right Now</legend>
+                          {% endif %}
                           <div class="row">
                               <div class="col-12 col-lg-5 book-item-image">
                                   <img src="{{ book.image.url }}" class="book-item-object" width="150">

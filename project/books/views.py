@@ -26,7 +26,7 @@ def bookDetails(request, pk):
         rating = 0
         for opinion in book.opinions.all():
             rating += opinion.rating
-        book.rating = rating / len(book.opinions.all())
+        book.rating = round(rating / len(book.opinions.all()),2)
         book.save()
 
     def get_instance_of_book():
@@ -48,12 +48,12 @@ def bookDetails(request, pk):
     if request.method == 'POST':
         opinion_create_form = OpinionCreateForm(data=request.POST)
         if opinion_create_form.is_valid():
-            if not opinions.filter(author=request.user).exists():
-                new_opinion = opinion_create_form.save(commit=False)
-                new_opinion.book = book
-                new_opinion.author = request.user
-                opinion_create_form.save()
-                update_book_rating()
+            #if not opinions.filter(author=request.user).exists():
+            new_opinion = opinion_create_form.save(commit=False)
+            new_opinion.book = book
+            new_opinion.author = request.user
+            opinion_create_form.save()
+            update_book_rating()
         else:
             if instance is not None:
                 profile = Profile.objects.all().filter(user=request.user)[0]
@@ -78,11 +78,13 @@ def book_filter_view(request):
     book_title = request.GET.get('book_title')
     book_author = request.GET.get('book_author')
     book_genre = request.GET.get('book_genre')
+    book_rating = request.GET.get('book_rating')
 
     sort_method = request.GET.get('sort')
 
     genres = Genre.objects.all().order_by('name')
     searched = False
+    most_popular = False
 
     if is_valid_queryparam(book_title):
         qs = qs.filter(title__icontains=book_title).order_by('title')
@@ -95,13 +97,18 @@ def book_filter_view(request):
         qs = qs.filter(genre__name=book_genre)
 
     if is_valid_queryparam(sort_method):
-        qs = qs.order_by(sort_method)
+        if sort_method == 'popularity':
+            qs = qs.order_by('-rating')
+            most_popular = True
+        else:
+            qs = qs.order_by(sort_method)
 
     context = {
         'bookList': qs,
         'genres': genres,
         'searched': searched,
         'genre': book_genre,
+        'popularity_ranking': most_popular,
     }
 
     return render(request, 'books/library.html', context)

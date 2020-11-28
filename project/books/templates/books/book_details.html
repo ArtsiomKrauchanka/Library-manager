@@ -20,7 +20,7 @@
             <div class="col-lg-7 align-items-start mt-3">
                 <h1>{{ book.title }}</h1>
                 <p>{{ book.author }}</p>
-                <!--book.rating-->
+                {{book.rating}}
                 <ul class="list-inline list-unstyled rating-star">
                     {% for _ in book.get_enabled_star %}
                         <li class="active-star">
