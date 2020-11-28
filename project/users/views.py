@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -5,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
+from users.models import Profile
+from books.models import BookInstance
+
 
 # User registration view
 @unauthenticated_user
@@ -12,7 +17,7 @@ def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -23,6 +28,7 @@ def login_page(request):
             messages.error(request, "Wrong username/email or password")
             return redirect('login')
     return render(request, 'users/login.html')
+
 
 @unauthenticated_user
 def register(request):
@@ -43,6 +49,7 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'users/register.html', {'form': form})
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['reader'])
@@ -65,5 +72,26 @@ def profile_edit(request):
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-        
+
     return render(request, 'users/profile_edit.html')
+
+
+def profile_books(request):
+    return render(request, 'users/profile_books.html')
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['reader'])
+def user_books(request):
+    # user = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        if 'book_instance_id' in request.POST:
+            book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
+            book_instance.status = 'a'
+            book_instance.save()
+            request.user.profile.book_list.remove(book_instance)
+        if 'book_instance_extend_id' in request.POST:
+            book_instance = BookInstance.objects.get(id=request.POST['book_instance_extend_id'])
+            book_instance.on_loan_end += datetime.timedelta(weeks=4 * book_instance.on_loan_duration)
+            book_instance.save()
+
+    return render(request, 'users/user_books.html', {'current_data': datetime.datetime.today().date()})

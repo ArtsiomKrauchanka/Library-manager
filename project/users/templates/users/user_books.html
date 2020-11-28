@@ -1,0 +1,141 @@
+{% extends "landing/base_without_footer.html" %}.html" %}
+{% load static %}
+{% block content %}
+
+<div class="wrapper bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 inner bg-white">
+                <div class="profile-nav">
+                    <div class="user-heading round">
+                        <a href=""><img src="/static/landing/img/profile_pic.jpg" alt=""></a>
+                        <h1>{{ user.username }}</h1>
+                    </div>
+
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-link"><a href="{% url 'profile' %}">Profile</a></li>
+                        <li class="nav-link active"><a href="">My Books</a></li>
+                        <li class="nav-link"><a href="{% url 'profile_edit' %}">Edit Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 inner bg-white">
+                <div class="panel">
+                    <h2 class="mb-4">My books</h2>
+                    {% if user.profile.book_list.all|length == 0 %}
+                    <h4>No Books Found</h4>
+                    {% else %}
+                    <div class="panel panel-primary">
+                    <div class="panel-heading"><h3>Reserved</h3></div>
+                        <div class="panel-body">
+                            <div class="row">
+                                 <div class="col-12">
+                                     <div class="row" style="">
+                                        <div class="col-2">Image</div>
+                                        <div class="col-6">Title, author</div>
+                                        <div class="col-4">Actions</div>
+                                     </div>
+                                 </div>
+                            </div>
+                            <div>
+                                 <div class="row">
+                                     {% for bookInstance in user.profile.book_list.all %}
+                                         {% if bookInstance.status  == 'r' %}
+                                            <div class="col-12">
+                                                <div class="row row-record" >
+                                                    <div class="col-2 ">
+                                                        <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="50">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h5>{{ bookInstance.book.title }}</h5>
+                                                        <h6>{{ bookInstance.book.author }} ,{{ bookInstance.imprint }}</h6>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="text-center">
+                                                                 <form method="POST">
+                                                                {% csrf_token %}
+                                                                    <input type="hidden" name="book_instance_id" value="{{bookInstance.id}}">
+                                                                    <button class="discard-btn" type="submit">Discard reservation</button>
+                                                                 </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                    <div class="panel-heading"><h3>On loan</h3></div>
+                        <div class="panel-body">
+                            <div class="row">
+                                 <div class="col-12">
+                                     <div class="row" style="">
+                                        <div class="col-1">Image</div>
+                                        <div class="col-4">Title, author</div>
+                                        <div class="col-3">Return date</div>
+                                         <div class="col-2">
+                                             <h7>Days expired</h7>
+                                             <h6>Cost</h6>
+                                         </div>
+                                        <div class="col-1"><h6>Action</h6></div>
+
+                                 </div>
+                            </div>
+                            <div>
+                                 <div class="row">
+                                     {% for bookInstance in user.profile.book_list.all %}
+                                         {% if bookInstance.status  == 'o' %}
+                                                <div class="col-12">
+                                                    <div class="row row-record">
+                                                        <div class="col-1">
+                                                            <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="50">
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <h5>{{ bookInstance.book.title }}</h5>
+                                                            <h6>{{ bookInstance.book.author }} ,{{ bookInstance.imprint }}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <h5 class="{% if current_data > bookInstance.on_loan_end %}book_return_expired{%endif%}">{{bookInstance.on_loan_end}}</h5>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {% if current_data > bookInstance.on_loan_end %}
+                                                             <h7 class="{% if current_data > bookInstance.on_loan_end %}book_return_expired{%endif%}">{{bookInstance.get_days_expired}}</h7>
+                                                            <h5 class="book_return_expired">{{bookInstance.get_cost}}</h5>
+                                                            {%endif%}
+                                                        </div>
+                                                         <div class="col-2">
+                                                             {% if current_data < bookInstance.on_loan_end %}
+                                                            <div class="text-center">
+                                                                 <form method="POST">
+                                                                {% csrf_token %}
+                                                                    <input type="hidden" name="book_instance_extend_id" value="{{bookInstance.id}}">
+                                                                     <button class="discard-btn" type="submit">Extend</button>
+
+                                                                 </form>
+                                                            </div>
+                                                             {%else%}
+                                                             {%endif%}
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                         {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
