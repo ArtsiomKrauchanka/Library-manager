@@ -69,6 +69,33 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
+
+                 <label class="ml-1"  for="opinion_title">Rating: </label>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline1" name="rating" value="1">
+                  <label class="custom-control-label" for="defaultInline1">1</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline2" name="rating" value="2">
+                  <label class="custom-control-label" for="defaultInline2">2</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline3" name="rating" value="3">
+                  <label class="custom-control-label" for="defaultInline3">3</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline4" name="rating" value="4">
+                  <label class="custom-control-label" for="defaultInline4">4</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="defaultInline5" name="rating" checked value="5">
+                  <label class="custom-control-label" for="defaultInline5">5</label>
+                </div>
+
                 <legend class="border-bottom mb-4">Your Opinion</legend>
                 <label class="ml-1"  for="opinion_title">Title</label>
                 <input id="opinion_title" name="title" type="text" class="form-control mb-3">

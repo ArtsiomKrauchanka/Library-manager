@@ -6,21 +6,31 @@ from books.models import Genre
 from books.forms import OpinionCreateForm
 import os
 
+
 def elibrary(request):
     ebook_list = Ebook.objects.all().order_by('book__title')
     genres = Genre.objects.all().order_by('name')
-    
+
     context = {
         'title': 'Available ebooks',
         'library_class': 'nav-selected',
-        'show_extras': 'no', 
+        'show_extras': 'no',
         'ebook_list': ebook_list,
         'genres': genres,
     }
     return render(request, 'ebooks/elibrary.html', context)
 
+
 def ebook_details(request, pk):
     ebook = get_object_or_404(Ebook, id=pk)
+
+    def update_book_rating():
+        rating = 0
+        for opinion in ebook.book.opinions.all():
+            rating += opinion.rating
+        ebook.book.rating = rating / len(ebook.book.opinions.all())
+        ebook.book.save()
+
     opinions = ebook.book.opinions.all()
     new_opinion = None
 
@@ -32,6 +42,7 @@ def ebook_details(request, pk):
             new_opinion.book = ebook.book
             new_opinion.author = request.user
             opinion_create_form.save()
+            update_book_rating()
     else:
         opinion_create_form = OpinionCreateForm()
 
@@ -41,12 +52,13 @@ def ebook_details(request, pk):
 def is_valid_queryparam(param):
     return param != '' and param is not None
 
+
 def ebook_filter_view(request):
     qs = Ebook.objects.all()
     ebook_title = request.GET.get('ebook_title')
     ebook_genre = request.GET.get('ebook_genre')
     sort_method = request.GET.get('sort')
-    
+
     genres = Genre.objects.all().order_by('name')
     searched = False
     most_popular = False
@@ -62,7 +74,7 @@ def ebook_filter_view(request):
             most_popular = True
         else:
             qs = qs.order_by(sort_method)
-    
+
     context = {
         'ebook_list': qs,
         'genres': genres,
@@ -72,6 +84,7 @@ def ebook_filter_view(request):
     }
 
     return render(request, 'ebooks/elibrary.html', context)
+
 
 def download_ebook(request, pk):
     ebook = Ebook.objects.get(id=pk)
