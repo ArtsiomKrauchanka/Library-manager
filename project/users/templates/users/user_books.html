@@ -77,9 +77,12 @@
                                         <div class="col-1">Image</div>
                                         <div class="col-4">Title, author</div>
                                         <div class="col-3">Return date</div>
-                                         <div class="col-2">Cost</div>
-                                        <div class="col-2">Action</div>
-                                     </div>
+                                         <div class="col-2">
+                                             <h7>Days expired</h7>
+                                             <h6>Cost</h6>
+                                         </div>
+                                        <div class="col-1"><h6>Action</h6></div>
+
                                  </div>
                             </div>
                             <div>
@@ -100,7 +103,8 @@
                                                         </div>
                                                         <div class="col-2">
                                                             {% if current_data > bookInstance.on_loan_end %}
-                                                            <h6 class="book_return_expired">{{bookInstance.get_cost}}</h6>
+                                                             <h7 class="{% if current_data > bookInstance.on_loan_end %}book_return_expired{%endif%}">{{bookInstance.get_days_expired}}</h7>
+                                                            <h5 class="book_return_expired">{{bookInstance.get_cost}}</h5>
                                                             {%endif%}
                                                         </div>
                                                          <div class="col-2">
@@ -133,29 +137,5 @@
 </div>
 
 
-
-<style>
-    .book_return_expired{
-        color:#FF0000;
-    }
-    .row-record{
-        margin-top: 25px;
-    }
-    .panel-primary{
-        margin-bottom: 20px;
-        border: 2px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    .panel-heading{
-        padding: 20px;
-        background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);
-        background-repeat: repeat-x;
-    }
-    .panel-body{
-        padding: 15px;
-
-    }
-</style>
 
 {% endblock %}

@@ -35,6 +35,8 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     image = models.ImageField(default='book_default.jpg', upload_to='books_pics')
+    rating = models.FloatField()
+
     def __str__(self):
         return self.title
 
@@ -72,6 +74,9 @@ class BookInstance(models.Model):
 
     def get_cost(self):
         return (datetime.datetime.today().date() - self.on_loan_end).days * 2.53
+
+    def get_days_expired(self):
+        return (datetime.datetime.today().date() - self.on_loan_end).days
 
 
 
