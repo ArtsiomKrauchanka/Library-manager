@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from .models import Ebook
@@ -35,15 +36,20 @@ def ebook_details(request, pk):
     new_opinion = None
 
     # Opinion posted
-    if request.method == 'POST' and not opinions.filter(author=request.user).exists():
+    if request.method == 'POST':
         opinion_create_form = OpinionCreateForm(data=request.POST)
         if opinion_create_form.is_valid():
+            if opinions.filter(author=request.user).exists():
+                messages.warning(request, "Cannot add another review. You have already reviewed this book!")
+                return redirect(f'/ebook_details/{pk}/')
             new_opinion = opinion_create_form.save(commit=False)
             new_opinion.book = ebook.book
             new_opinion.author = request.user
             opinion_create_form.save()
-            update_book_rating()
-    else:
+			
+			update_book_rating()
+			messages.success(request, "Review succesfully added!")
+	        return redirect(f'/ebook_details/{pk}/')    else:
         opinion_create_form = OpinionCreateForm()
 
     return render(request, 'ebooks/ebook_details.html', {'title': 'Book details', 'ebook': ebook})
