@@ -13,7 +13,7 @@
                     <h3 class="text-center mb-5"><b>Sign In</b></h3>
                     {% if messages %}
                         {% for message in messages %}
-                            <div class="alert alert-danger">
+                            <div class="alert alert-{{ message.tags }}">
                                 {{ message }}
                             </div>
                         {% endfor %}

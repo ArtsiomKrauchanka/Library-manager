@@ -43,7 +43,7 @@ def register(request):
             email = form.cleaned_data['email']
             group = Group.objects.get(name='reader')
             user.groups.add(group)
-
+            messages.success(request, 'Account successfully created.')
             return redirect('login')
     else:
         form = UserRegistrationForm()
