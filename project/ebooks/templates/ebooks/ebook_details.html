@@ -121,13 +121,30 @@
         <hr>
         {% for opinion in ebook.book.opinions.all %}
             <div class="reviews-members pt-4 pb-4">
-                <h4 class="mb-4" style="font-weight: bold;">{{ opinion.title }}</h4>
+                <h4 class="mb-4" style="font-weight: bold;">{{ opinion.title }}</h4>  
                 <div class="media">
                     <a href="#"><img alt="Generic placeholder image" src="{{ opinion.author.profile.image.url}}" class="mr-3 rounded-pill"></a>
                     <div class="media-body">
                         <div class="reviews-members-header">
                             <h6 class="mb-1"><a class="text-black" href="#">{{ opinion.author.username }}</a></h6>
                             <p class="text-gray">{{ opinion.date_posted|date:"F d, Y" }}</p>
+                            <ul class="list-inline list-unstyled rating-star">
+                                {% for _ in ebook.book.get_enabled_star %}
+                                    <li class="active-star">
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                {% endfor %}
+                                {% if ebook.book.is_half_star_active %}
+                                    <li class="active-half-star">
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                {% endif %}
+                                {% for _ in ebook.book.get_disabled_star %}
+                                    <li>
+                                        <i class="icofont-star"></i>
+                                    </li>
+                                {% endfor %}
+                            </ul>  
                         </div>
                         <div class="reviews-members-body">
                             <p>{{ opinion.content }}</p>
