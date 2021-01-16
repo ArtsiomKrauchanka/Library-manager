@@ -7,7 +7,6 @@ def ebook_directory_path(instance, filename):
     return f'ebooks/{instance.book.title.replace(" ", "_")}/{filename}'
 
 class Ebook(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     book = models.OneToOneField(Book, on_delete=models.CASCADE)
     txt_book = models.FileField(blank=True, null=True, upload_to=ebook_directory_path,
                                 validators=[FileExtensionValidator(allowed_extensions=['txt'])])
