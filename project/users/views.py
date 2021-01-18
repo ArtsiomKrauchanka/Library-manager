@@ -86,7 +86,7 @@ def user_books(request):
     if request.method == 'POST':
         if 'book_instance_id' in request.POST:
             book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
-            book_instance.status = 'a'
+            book_instance.status = "Available"
             book_instance.save()
             request.user.profile.book_list.remove(book_instance)
         if 'book_instance_extend_id' in request.POST:

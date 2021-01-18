@@ -2,9 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 import datetime
 
-import uuid  # Required for unique book instances
+
 
 
 # Create your models here.
@@ -57,6 +58,8 @@ class Book(models.Model):
         return True if float(int(self.rating)) - self.rating != 0.0 else False
 
 
+
+
 class BookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
@@ -66,14 +69,21 @@ class BookInstance(models.Model):
     on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
     created_date = models.DateTimeField(default=timezone.now)
 
-    LOAN_STATUS = (
-        ('m', 'Maintenance'),
-        ('o', 'On loan'),
-        ('a', 'Available'),
-        ('r', 'Reserved'),
-    )
+    #LOAN_STATUS = (
+    #    ('m', 'Maintenance'),
+    #    ('o', 'On loan'),
+    #    ('a', 'Available'),
+    #    ('r', 'Reserved'),
+    #)
 
-    status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
+    class LOAN_STATUS(models.TextChoices):
+        m = 'Maintenance', _('m')
+        o = 'On loan', _('o')
+        a = 'Available', _('a')
+        r = 'Reserved', _('r')
+
+    #status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
+    status = models.CharField(choices=LOAN_STATUS.choices, default=LOAN_STATUS.m, blank=True, help_text='Book availability', max_length=11)
 
     class Meta:
         ordering = ["due_back"]

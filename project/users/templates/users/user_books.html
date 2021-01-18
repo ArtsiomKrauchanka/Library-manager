@@ -40,7 +40,7 @@
                             <div>
                                  <div class="row">
                                      {% for bookInstance in user.profile.book_list.all %}
-                                         {% if bookInstance.status  == 'r' %}
+                                         {% if bookInstance.status  == 'Reserved' %}
                                             <div class="col-12">
                                                 <div class="row row-record" >
                                                     <div class="col-2 ">
@@ -88,7 +88,7 @@
                             <div>
                                  <div class="row">
                                      {% for bookInstance in user.profile.book_list.all %}
-                                         {% if bookInstance.status  == 'o' %}
+                                         {% if bookInstance.status  == 'On loan' %}
                                                 <div class="col-12">
                                                     <div class="row row-record">
                                                         <div class="col-1">
