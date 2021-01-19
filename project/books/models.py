@@ -6,8 +6,6 @@ from django.utils.translation import gettext_lazy as _
 import datetime
 
 
-
-
 # Create your models here.
 
 class Genre(models.Model):
@@ -58,23 +56,17 @@ class Book(models.Model):
         return True if float(int(self.rating)) - self.rating != 0.0 else False
 
 
-
-
 class BookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
-    on_loan_start = models.DateField(null=True, blank=True)
-    on_loan_end = models.DateField(null=True, blank=True)
-    due_back = models.DateField(null=True, blank=True)
-    on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
     created_date = models.DateTimeField(default=timezone.now)
 
-    #LOAN_STATUS = (
+    # LOAN_STATUS = (
     #    ('m', 'Maintenance'),
     #    ('o', 'On loan'),
     #    ('a', 'Available'),
     #    ('r', 'Reserved'),
-    #)
+    # )
 
     class LOAN_STATUS(models.TextChoices):
         m = 'Maintenance', _('m')
@@ -82,20 +74,58 @@ class BookInstance(models.Model):
         a = 'Available', _('a')
         r = 'Reserved', _('r')
 
-    #status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
-    status = models.CharField(choices=LOAN_STATUS.choices, default=LOAN_STATUS.m, blank=True, help_text='Book availability', max_length=11)
+    # status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
+    status = models.CharField(choices=LOAN_STATUS.choices, default=LOAN_STATUS.m, blank=True,
+                              help_text='Book availability', max_length=11)
 
     class Meta:
-        ordering = ["due_back"]
+        ordering = ["created_date"]
 
     def __str__(self):
         return '%s (%s)' % (self.id, self.book.title)
 
+
+class BookRental(models.Model):
+    book = models.ForeignKey(BookInstance, on_delete=models.SET_NULL, null=True)
+    on_loan_start = models.DateField(null=True, blank=True)
+    on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
+    on_loan_end = models.DateField(null=True, blank=True)
+    booker = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ["on_loan_start"]
+
+    def __str__(self):
+        return '%s (%s, %s)' % (self.id, self.book.book.title, self.booker.username)
+
     def get_cost(self):
-        return (datetime.datetime.today().date() - self.on_loan_end).days * 2.53
+        due_date = self.on_loan_start + datetime.timedelta(weeks=4 * self.on_loan_duration)
+        if datetime.datetime.today().date() > due_date:
+            return (datetime.datetime.today().date() - due_date).days * 2.53
+        else:
+            return 0
+
+    def get_due_date(self):
+        return self.on_loan_start + datetime.timedelta(weeks=4 * self.on_loan_duration)
 
     def get_days_expired(self):
-        return (datetime.datetime.today().date() - self.on_loan_end).days
+        due_date = self.on_loan_start + datetime.timedelta(weeks=4 * self.on_loan_duration)
+        if (datetime.datetime.today().date() - due_date).days > 0:
+            return (datetime.datetime.today().date() - due_date).days
+        else:
+            return 0
+
+
+class BookReservation(models.Model):
+    book = models.ForeignKey(BookInstance, on_delete=models.SET_NULL, null=True)
+    reservation_date = models.DateField(auto_now_add=True, null=True, blank=True)
+    booker = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ["reservation_date"]
+
+    def __str__(self):
+        return '%s (%s, %s)' % (self.id, self.book.book.title, self.booker.username)
 
 
 class Opinion(models.Model):

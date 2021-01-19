@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Book, Author, Genre
-from .models import Book, Author, Genre, BookInstance
+from .models import BookInstance, BookRental, BookReservation
 from .forms import OpinionCreateForm
 from users.models import Profile
 from django.shortcuts import render, get_object_or_404
@@ -62,12 +62,17 @@ def bookDetails(request, pk):
             return redirect(f'/book_details/{pk}/')
         else:
             if instance is not None:
-                profile = Profile.objects.all().filter(user=request.user)[0]
-                profile.book_list.add(instance)
-                profile.save()
-                instance.status = "Reserved"
-                instance.save()
-                instance = get_instance_of_book()
+                #user = User.objects.get(id=request.user.id)
+                bookInstance = get_instance_of_book()
+                bookReservation = BookReservation.objects.create(book=bookInstance, booker=request.user)
+                bookReservation.save()
+                #profile.book_list.add(instance)
+                #profile.save()
+                bookInstance.status = "Reserved"
+                bookInstance.save()
+                #instance.save()
+                #instance = get_instance_of_book()
+
     else:
         opinion_create_form = OpinionCreateForm()
 

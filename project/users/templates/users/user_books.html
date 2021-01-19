@@ -22,7 +22,7 @@
             <div class="col-md-8 inner bg-white">
                 <div class="panel">
                     <h2 class="mb-4">My books</h2>
-                    {% if user.profile.book_list.all|length == 0 %}
+                    {% if bookReservations|length == 0 %}
                     <h4>No Books Found</h4>
                     {% else %}
                     <div class="panel panel-primary">
@@ -39,22 +39,22 @@
                             </div>
                             <div>
                                  <div class="row">
-                                     {% for bookInstance in user.profile.book_list.all %}
-                                         {% if bookInstance.status  == 'Reserved' %}
+                                     {% for bookReservation in bookReservations %}
+                                         {% if bookReservation.book.status  == 'Reserved' %}
                                             <div class="col-12">
                                                 <div class="row row-record" >
                                                     <div class="col-2 ">
-                                                        <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="50">
+                                                        <img src="{{ bookReservation.book.book.image.url }}" class="book-item-object" width="50">
                                                     </div>
                                                     <div class="col-6">
-                                                        <h5>{{ bookInstance.book.title }}</h5>
-                                                        <h6>{{ bookInstance.book.author }} ,{{ bookInstance.imprint }}</h6>
+                                                        <h5>{{ bookReservation.book.book.title }}</h5>
+                                                        <h6>{{ bookReservation.book.book.author }} ,{{ bookReservation.book.imprint }}</h6>
                                                     </div>
                                                     <div class="col-4">
                                                         <div class="text-center">
                                                                  <form method="POST">
                                                                 {% csrf_token %}
-                                                                    <input type="hidden" name="book_instance_id" value="{{bookInstance.id}}">
+                                                                    <input type="hidden" name="book_instance_id" value="{{bookReservation.book.id}}">
                                                                     <button class="discard-btn" type="submit">Discard reservation</button>
                                                                  </form>
                                                         </div>
@@ -75,44 +75,49 @@
                                  <div class="col-12">
                                      <div class="row" style="">
                                         <div class="col-1">Image</div>
-                                        <div class="col-4">Title, author</div>
+                                        <div class="col-3">Title, author</div>
                                         <div class="col-3">Return date</div>
                                          <div class="col-2">
-                                             <h7>Days expired</h7>
-                                             <h6>Cost</h6>
+                                             Days expired
                                          </div>
-                                        <div class="col-1"><h6>Action</h6></div>
+                                         <div class="col-2">
+                                             Cost
+                                         </div>
+                                        <div class="col-1">Action</div>
 
                                  </div>
                             </div>
                             <div>
                                  <div class="row">
-                                     {% for bookInstance in user.profile.book_list.all %}
-                                         {% if bookInstance.status  == 'On loan' %}
+                                     {% for bookRental in bookRentals %}
+                                         {% if bookRental.book.status  == 'On loan' %}
                                                 <div class="col-12">
                                                     <div class="row row-record">
                                                         <div class="col-1">
-                                                            <img src="{{ bookInstance.book.image.url }}" class="book-item-object" width="50">
+                                                            <img src="{{ bookRental.book.book.image.url }}" class="book-item-object" width="50">
                                                         </div>
                                                         <div class="col-4">
-                                                            <h5>{{ bookInstance.book.title }}</h5>
-                                                            <h6>{{ bookInstance.book.author }} ,{{ bookInstance.imprint }}</h6>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <h5 class="{% if current_data > bookInstance.on_loan_end %}book_return_expired{%endif%}">{{bookInstance.on_loan_end}}</h5>
+                                                            <h5>{{ bookRental.book.book.title }}</h5>
+                                                            <h6>{{ bookRental.book.book.author }} ,{{ bookRental.book.imprint }}</h6>
                                                         </div>
                                                         <div class="col-2">
-                                                            {% if current_data > bookInstance.on_loan_end %}
-                                                             <h7 class="{% if current_data > bookInstance.on_loan_end %}book_return_expired{%endif%}">{{bookInstance.get_days_expired}}</h7>
-                                                            <h5 class="book_return_expired">{{bookInstance.get_cost}}</h5>
-                                                            {%endif%}
+                                                            <h6 class="{% if current_data > bookRental.get_due_date %}book_return_expired{%endif%}">{{bookRental.get_due_date}}</h6>
                                                         </div>
-                                                         <div class="col-2">
-                                                             {% if current_data < bookInstance.on_loan_end %}
+                                                        <div class="col-2">
+
+                                                             <h6 class="{% if current_data > bookRental.get_due_date %}book_return_expired{%endif%}">{{bookRental.get_days_expired}} days</h6>
+
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <h6 class="{% if current_data > bookRental.get_due_date %}book_return_expired{%endif%}">{{bookRental.get_cost}} zl</h6>
+                                                        </div>
+                                                         <div class="col-1">
+                                                             {% if current_data < bookRental.get_due_date %}
                                                             <div class="text-center">
                                                                  <form method="POST">
                                                                 {% csrf_token %}
-                                                                    <input type="hidden" name="book_instance_extend_id" value="{{bookInstance.id}}">
+                                                                    <input type="hidden" name="book_instance_extend_id" value="{{bookRental.book.id}}">
                                                                      <button class="discard-btn" type="submit">Extend</button>
 
                                                                  </form>
