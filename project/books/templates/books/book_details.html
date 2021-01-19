@@ -47,7 +47,7 @@
                     {{ book.summary|linebreaksbr }}
                 </p>
                 <p>ISBN: {{ book.isbn|linebreaksbr }} </p>
-                {% if Instance %}
+                {% if Instance.status  == 'Available' %}
                 <p>Available: Yes </p>
                 <form method="POST">
                     {% csrf_token %}

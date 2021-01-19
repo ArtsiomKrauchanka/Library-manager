@@ -86,11 +86,11 @@ class BookInstance(models.Model):
 
 
 class BookRental(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.SET_NULL, null=True)
-    on_loan_start = models.DateField(null=True, blank=True)
+    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE, null=True)
+    on_loan_start = models.DateField(auto_now_add=True, null=True, blank=True)
     on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
     on_loan_end = models.DateField(null=True, blank=True)
-    booker = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    booker = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ["on_loan_start"]
@@ -117,9 +117,9 @@ class BookRental(models.Model):
 
 
 class BookReservation(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE, null=True)
     reservation_date = models.DateField(auto_now_add=True, null=True, blank=True)
-    booker = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    booker = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ["reservation_date"]

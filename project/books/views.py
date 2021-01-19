@@ -63,15 +63,14 @@ def bookDetails(request, pk):
         else:
             if instance is not None:
                 #user = User.objects.get(id=request.user.id)
-                bookInstance = get_instance_of_book()
-                bookReservation = BookReservation.objects.create(book=bookInstance, booker=request.user)
+                instance.status = "Reserved"
+                instance.save()
+                bookReservation = BookReservation.objects.create(book=instance, booker=request.user)
                 bookReservation.save()
                 #profile.book_list.add(instance)
                 #profile.save()
-                bookInstance.status = "Reserved"
-                bookInstance.save()
                 #instance.save()
-                #instance = get_instance_of_book()
+                instance = get_instance_of_book()
 
     else:
         opinion_create_form = OpinionCreateForm()
