@@ -30,7 +30,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
-    isbn = models.CharField('ISBN', max_length=13,
+    isbn = models.CharField('ISBN', max_length=13, unique=True,
                             help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     image = models.ImageField(default='book_default.jpg', upload_to='books_pics')
@@ -80,7 +80,7 @@ class BookInstance(models.Model):
 class BookRental(models.Model):
     book = models.ForeignKey(BookInstance, on_delete=models.CASCADE)
     on_loan_start = models.DateField(auto_now_add=True)
-    on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
+    on_loan_duration = models.IntegerField(default=1, null=False, help_text="Months")
     on_loan_end = models.DateField(null=True, blank=True)
     booker = models.ForeignKey(User, on_delete=models.CASCADE)
 
