@@ -89,7 +89,7 @@ def user_books(request):
     if request.method == 'POST':
         if 'book_instance_id' in request.POST:
             book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
-            book_instance.status = "Available"
+            book_instance.status = "A"
             book_instance.save()
             reservation = BookReservation.objects.get(book=book_instance, booker=request.user)
             reservation.delete()

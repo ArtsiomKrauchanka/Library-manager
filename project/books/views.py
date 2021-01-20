@@ -32,7 +32,7 @@ def bookDetails(request, pk):
         book.save()
 
     def get_instance_of_book():
-        instance_list = BookInstance.objects.all().filter(book=pk, status='Available')
+        instance_list = BookInstance.objects.all().filter(book=pk, status='A')
         if len(instance_list) == 0:
             instance_of_book = None
         else:
@@ -63,7 +63,7 @@ def bookDetails(request, pk):
         else:
             if instance is not None:
                 #user = User.objects.get(id=request.user.id)
-                instance.status = "Reserved"
+                instance.status = "R"
                 instance.save()
                 bookReservation = BookReservation.objects.create(book=instance, booker=request.user)
                 bookReservation.save()

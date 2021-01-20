@@ -61,21 +61,21 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
 
-    # LOAN_STATUS = (
+    # LoanStatus = (
     #    ('m', 'Maintenance'),
     #    ('o', 'On loan'),
     #    ('a', 'Available'),
     #    ('r', 'Reserved'),
     # )
 
-    class LOAN_STATUS(models.TextChoices):
-        m = 'Maintenance', _('m')
-        o = 'On loan', _('o')
-        a = 'Available', _('a')
-        r = 'Reserved', _('r')
+    class LoanStatus(models.TextChoices):
+        MAINTENANCE = 'M', _('Maintenance')
+        ONLOAN = 'O', _('On loan')
+        AVAILABLE = 'A', _('Available')
+        RESERVED = 'R', _('Reserved')
 
-    # status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
-    status = models.CharField(choices=LOAN_STATUS.choices, default=LOAN_STATUS.m, blank=True,
+    # status = models.CharField(max_length=1, choices=LoanStatus, blank=True, default='m', help_text='Book availability')
+    status = models.CharField(choices=LoanStatus.choices, default=LoanStatus.MAINTENANCE, blank=True,
                               help_text='Book availability', max_length=11)
 
     class Meta:
