@@ -79,7 +79,7 @@ class BookInstance(models.Model):
 
 
 class BookRental(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE)
+    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE, unique=True)
     on_loan_start = models.DateField(auto_now_add=True)
     on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
     on_loan_end = models.DateField(null=True, blank=True)
@@ -110,7 +110,7 @@ class BookRental(models.Model):
 
 
 class BookReservation(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE)
+    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE, unique=True)
     reservation_date = models.DateField(auto_now_add=True)
     booker = models.ForeignKey(User, on_delete=models.CASCADE)
 
