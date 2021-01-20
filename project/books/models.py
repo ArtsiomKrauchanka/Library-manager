@@ -9,7 +9,7 @@ import datetime
 # Create your models here.
 
 class Genre(models.Model):
-    name = models.CharField(max_length=200, help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)")
+    name = models.CharField(max_length=200, unique=True, help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)")
 
     def __str__(self):
         return self.name
@@ -61,13 +61,6 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
 
-    # LoanStatus = (
-    #    ('m', 'Maintenance'),
-    #    ('o', 'On loan'),
-    #    ('a', 'Available'),
-    #    ('r', 'Reserved'),
-    # )
-
     class LoanStatus(models.TextChoices):
         MAINTENANCE = 'M', _('Maintenance')
         ONLOAN = 'O', _('On loan')
@@ -86,11 +79,11 @@ class BookInstance(models.Model):
 
 
 class BookRental(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE, null=True)
-    on_loan_start = models.DateField(auto_now_add=True, null=True, blank=True)
+    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE)
+    on_loan_start = models.DateField(auto_now_add=True)
     on_loan_duration = models.IntegerField(default=4, null=False, help_text="Months")
     on_loan_end = models.DateField(null=True, blank=True)
-    booker = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    booker = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["on_loan_start"]
@@ -117,9 +110,9 @@ class BookRental(models.Model):
 
 
 class BookReservation(models.Model):
-    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE, null=True)
-    reservation_date = models.DateField(auto_now_add=True, null=True, blank=True)
-    booker = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey(BookInstance, on_delete=models.CASCADE)
+    reservation_date = models.DateField(auto_now_add=True)
+    booker = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["reservation_date"]
