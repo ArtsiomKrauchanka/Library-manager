@@ -67,7 +67,6 @@ class BookInstance(models.Model):
         AVAILABLE = 'A', _('Available')
         RESERVED = 'R', _('Reserved')
 
-    # status = models.CharField(max_length=1, choices=LoanStatus, blank=True, default='m', help_text='Book availability')
     status = models.CharField(choices=LoanStatus.choices, default=LoanStatus.AVAILABLE, blank=True,
                               help_text='Book availability', max_length=11)
 
