@@ -51,9 +51,11 @@
                 <p>Available: Yes </p>
                 <form method="POST">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Reserve</button>
-                    </div>
+                    {% if user.is_authenticated and request.user|has_group:"reader" %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Reserve</button>
+                        </div>
+                    {% endif %}
                 </form>
                 {% else %}
                 <p>Available: No </p>
