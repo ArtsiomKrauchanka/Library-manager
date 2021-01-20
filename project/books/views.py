@@ -32,7 +32,11 @@ def bookDetails(request, pk):
         book.rating = round(rating / len(opinions),2)
         book.save()
 
-    bookInstance = BookInstance.objects.get(book=pk)
+    BookInstanceList = BookInstance.objects.filter(book=pk, status="A")
+    if len(BookInstanceList) != 0:
+        bookInstance = BookInstanceList[0]
+    else:
+        bookInstance = None
     opinions = book.opinions.all()
 
     new_opinion = None
@@ -56,6 +60,12 @@ def bookDetails(request, pk):
                 bookInstance.save()
                 bookReservation = BookReservation.objects.create(book=bookInstance, booker=request.user)
                 bookReservation.save()
+                BookInstanceList = BookInstance.objects.filter(book=pk, status="A")
+                if len(BookInstanceList) != 0:
+                    bookInstance = BookInstanceList[0]
+                else:
+                    bookInstance = None
+        opinions = book.opinions.all()
     else:
         opinion_create_form = OpinionCreateForm()
 
