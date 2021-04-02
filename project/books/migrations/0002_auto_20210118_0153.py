@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='bookinstance',
             name='status',
-            field=models.CharField(blank=True, default='Maintenance', help_text='Book availability', max_length=1, verbose_name=books.models.BookInstance.LOAN_STATUS),
+            field=models.CharField(blank=True, default='Maintenance', help_text='Book availability', max_length=1, verbose_name=books.models.BookInstance.LoanStatus),
         ),
     ]

@@ -8,7 +8,7 @@ from django.contrib.auth.models import Group
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .decorators import unauthenticated_user, allowed_users
 from users.models import Profile
-from books.models import BookInstance
+from books.models import BookInstance, BookRental, BookReservation
 
 
 # User registration view
@@ -79,19 +79,26 @@ def profile_edit(request):
 def profile_books(request):
     return render(request, 'users/profile_books.html')
 
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['reader'])
 def user_books(request):
     # user = Profile.objects.get(user=request.user)
+    bookReservations = BookReservation.objects.filter(booker=request.user)
+    bookRentals = BookRental.objects.filter(booker=request.user)
     if request.method == 'POST':
         if 'book_instance_id' in request.POST:
             book_instance = BookInstance.objects.get(id=request.POST['book_instance_id'])
-            book_instance.status = "Available"
+            book_instance.status = "A"
             book_instance.save()
-            request.user.profile.book_list.remove(book_instance)
+            reservation = BookReservation.objects.get(book=book_instance, booker=request.user)
+            reservation.delete()
+            # request.user.profile.book_list.remove(book_instance)
         if 'book_instance_extend_id' in request.POST:
             book_instance = BookInstance.objects.get(id=request.POST['book_instance_extend_id'])
-            book_instance.on_loan_end += datetime.timedelta(weeks=4 * book_instance.on_loan_duration)
-            book_instance.save()
+            bookRental = BookRental.objects.get(book=book_instance, booker=request.user)
+            if bookRental.on_loan_duration < 5:
+                bookRental.on_loan_duration += 1
+                bookRental.save()
 
-    return render(request, 'users/user_books.html', {'current_data': datetime.datetime.today().date()})
+    return render(request, 'users/user_books.html', {'current_data': datetime.datetime.today().date(),'bookReservations': bookReservations, "bookRentals": bookRentals})

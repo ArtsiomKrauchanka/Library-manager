@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Book, Author, Genre
-from .models import Book, Author, Genre, BookInstance
+from .models import BookInstance, BookRental, BookReservation
 from .forms import OpinionCreateForm
 from users.models import Profile
 from django.shortcuts import render, get_object_or_404
@@ -26,21 +26,17 @@ def bookDetails(request, pk):
 
     def update_book_rating():
         rating = 0
-        for opinion in book.opinions.all():
+        opinions = book.opinions.all()
+        for opinion in opinions:
             rating += opinion.rating
-        book.rating = round(rating / len(book.opinions.all()),2)
+        book.rating = round(rating / len(opinions),2)
         book.save()
 
-    def get_instance_of_book():
-        instance_list = BookInstance.objects.all().filter(book=pk, status='Available')
-        if len(instance_list) == 0:
-            instance_of_book = None
-        else:
-            instance_of_book = instance_list[0]
-        return instance_of_book
+    def get_available_book():
+        bookInstances = BookInstance.objects.filter(book=pk, status="A")
+        return bookInstances[0] if bookInstances else None
 
-    # instance = BookInstance.objects.get(book = pk, status = 'a')
-    instance = get_instance_of_book()
+    bookInstance = get_available_book()
 
     opinions = book.opinions.all()
 
@@ -60,19 +56,17 @@ def bookDetails(request, pk):
             update_book_rating()
             messages.success(request, "Review succesfully added!")
             return redirect(f'/book_details/{pk}/')
-        else:
-            if instance is not None:
-                profile = Profile.objects.all().filter(user=request.user)[0]
-                profile.book_list.add(instance)
-                profile.save()
-                instance.status = "Reserved"
-                instance.save()
-                instance = get_instance_of_book()
+        elif bookInstance is not None:
+
+            bookInstance.status = "R"
+            bookInstance.save()
+            bookReservation = BookReservation.objects.create(book=bookInstance, booker=request.user)
+            bookReservation.save()
+            bookInstance = get_available_book()
     else:
         opinion_create_form = OpinionCreateForm()
 
-  
-    return render(request, 'books/book_details.html', {'title': 'Book details', 'book': book, 'Instance': instance})
+    return render(request, 'books/book_details.html', {'title': 'Book details', 'book': book, 'bookInstance': bookInstance})
 
 
 def is_valid_queryparam(param):

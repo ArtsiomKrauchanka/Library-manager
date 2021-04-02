@@ -1,37 +1,58 @@
-{% extends "landing/base_without_nav.html" %}
-{% load static %}
+{% extends "landing/base_without_nav.html" %} 
+{% load static %} 
 {% block content %}
 <div class="wrapper bg-gray">
-    <div class="container inner bg-white">
-        <div class="row">
-            <div class="col-12 col-sm-6 image-holder">
-                <img class="rounded" src="{% static 'landing/img/hero-fell.jpg'%}" alt="">
+  <div class="container inner bg-white">
+    <div class="row">
+      <div class="col-12 col-sm-6 image-holder">
+        <img
+          class="rounded"
+          src="{% static 'landing/img/hero-fell.jpg'%}"
+          alt=""
+        />
+      </div>
+      <div class="col-12 col-sm-6 p-4 my-auto">
+        <form method="POST">
+          {% csrf_token %}
+          <h3 class="text-center mb-5"><b>Sign In</b></h3>
+          {% if messages %} 
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}    
+          {% endif %}
+          <fieldset>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              class="input"
+              autocomplete="new-password"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="input input-password"
+              autocomplete="new-password"
+            />
+            <div>
+              <small class="ml-3"
+                ><a href="{% url 'password_reset' %}"
+                  >Forgot your password?</a
+                ></small
+              >
             </div>
-            <div class="col-12 col-sm-6 p-4 my-auto">
-                <form method="POST">
-                    {% csrf_token %}
-                    <h3 class="text-center mb-5"><b>Sign In</b></h3>
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    <fieldset>
-                        <input type="text" name="username" placeholder="Username" class="input" autocomplete="new-password">
-                        <input type="password" name="password" placeholder="Password" class="input input-password" autocomplete="new-password">
-                        <div>
-                            <small class="ml-3"><a href="{% url 'password_reset' %}">Forgot your password?</a></small>
-                        </div>
-                    </fieldset>
-                    <div class="text-center">
-                        <button class="confirm-btn" type="submit">Log In</button>
-                        <span class="span-link mt-4" style="display: block;">Don't have an account? <a href="{% url 'register' %}">Create One</a></span>
-                    </div>
-                </form>
-            </div>
-        </div>
+          </fieldset>
+          <div class="text-center">
+            <button class="confirm-btn" type="submit">Log In</button>
+            <span class="span-link mt-4" style="display: block"
+              >Don't have an account?
+              <a href="{% url 'register' %}">Create One</a></span
+            >
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
